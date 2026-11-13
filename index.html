@@ -1,0 +1,1140 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Atas de Pólo Aquático</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap">
+<style>
+/* Layout: barra de navegação fixa + folha de relatório centrada (como um documento técnico), ferramentas acima da folha */
+:root {
+  --bg: #eef2f5; --surface: #ffffff; --ink: #0f1e2e; --ink2: #56606b; --line: #dbe1e7; --zebra: #f5f7f9; --hl: #fff0de;
+  --navy: #16324f; --accent: #1f6fd1; --accent-ink: #ffffff; --accent-soft: #e6effb;
+  --c1: #2a78d6; --c2: #eb6834; --c3: #1baf7a; --good: #13955a; --bad: #d64541; --empty: #c3c8cd; --heat1: #1c5cab; --heat2: #c2410c;
+  --chave: #1f6fd1; --chave-bg: #eaf2fc; --acao: #0c8a4e; --acao-bg: #e7f5ed; --alerta: #c2410c; --alerta-bg: #fdf0e7;
+  --display: "Barlow Condensed", "Arial Narrow", Arial, sans-serif; --body: "Barlow", "Helvetica Neue", Arial, sans-serif;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0b141d; --surface: #122030; --ink: #e6edf3; --ink2: #9aa8b5; --line: #24384b; --zebra: #16283a; --hl: #3a2a12;
+  --navy: #a9cbf2; --accent: #5ea2f3; --accent-ink: #08131e; --accent-soft: #17304b;
+  --c1: #4b92ea; --c2: #f07c4c; --c3: #2cc28b; --good: #34b878; --bad: #ec6a62; --empty: #4a5a6a; --heat1: #5ea2f3; --heat2: #f08a50;
+  --chave: #7db5f5; --chave-bg: #14283d; --acao: #4cc58a; --acao-bg: #122d20; --alerta: #f39a62; --alerta-bg: #35210f; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0b141d; --surface: #122030; --ink: #e6edf3; --ink2: #9aa8b5; --line: #24384b; --zebra: #16283a; --hl: #3a2a12;
+  --navy: #a9cbf2; --accent: #5ea2f3; --accent-ink: #08131e; --accent-soft: #17304b;
+  --c1: #4b92ea; --c2: #f07c4c; --c3: #2cc28b; --good: #34b878; --bad: #ec6a62; --empty: #4a5a6a; --heat1: #5ea2f3; --heat2: #f08a50;
+  --chave: #7db5f5; --chave-bg: #14283d; --acao: #4cc58a; --acao-bg: #122d20; --alerta: #f39a62; --alerta-bg: #35210f; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--navy); }
+.wrap { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header.top { background: #16324f; color: #fff; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; }
+header.top .wrap { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding-block: 10px; }
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand .ball { width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ffe066, #f2b400 70%); box-shadow: inset -3px -3px 0 rgba(0,0,0,.15); flex: none; position: relative; }
+.brand .ball::after { content: ""; position: absolute; inset: 4px 13px; border-left: 2px solid #c78f00; border-right: 2px solid #c78f00; border-radius: 50%; }
+.brand h1 { font-family: var(--display); font-size: 23px; letter-spacing: .3px; margin: 0; line-height: 1.05; text-wrap: balance; }
+.brand small { display: block; font-size: 11.5px; letter-spacing: 1.2px; text-transform: uppercase; opacity: .75; }
+nav.tabs { display: flex; gap: 4px; margin-left: auto; flex-wrap: wrap; }
+nav.tabs button { white-space: nowrap; flex: none; font: 600 14px var(--body); color: #cfe0f3; background: transparent; border: 0; padding: 7px 12px; border-radius: 8px; cursor: pointer; }
+nav.tabs button[aria-current="page"] { background: #ffffff; color: #16324f; }
+nav.tabs button:hover:not([aria-current="page"]) { background: rgba(255,255,255,.1); color: #fff; }
+nav.tabs .count { font-size: 12px; background: rgba(255,255,255,.18); border-radius: 10px; padding: 0 6px; margin-left: 4px; }
+nav.tabs button[aria-current="page"] .count { background: #e6effb; }
+button:focus-visible, select:focus-visible, input:focus-visible, label.drop:focus-within { outline: 3px solid #f2b400; outline-offset: 2px; }
+main { padding-block: 20px 60px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; margin-bottom: 16px; }
+.toolbar .field { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1 1 180px; }
+.toolbar .field.wide { flex: 3 1 320px; }
+label.lab, .field > span { font-size: 11.5px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: var(--ink2); }
+select, input[type=text], input[type=date] { font: 500 14.5px var(--body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; width: 100%; min-width: 0; }
+.exports { display: flex; gap: 6px; flex-wrap: wrap; }
+.btn { font: 700 14px var(--body); border-radius: 8px; padding: 8px 13px; cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--ink); display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.danger { color: var(--bad); }
+.btn.danger.armed { background: var(--bad); color: #fff; border-color: var(--bad); }
+.btn[disabled] { opacity: .55; cursor: progress; }
+.ftag { font: 700 10.5px var(--body); padding: 1px 5px; border-radius: 4px; color: #fff; letter-spacing: .4px; }
+.ftag.x { background: #1d7a46 } .ftag.w { background: #2b5797 } .ftag.p { background: #c4302b }
+.sheet { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 28px clamp(16px, 4vw, 40px) 36px; }
+.cover .eyebrow { font-size: 11.5px; letter-spacing: 1.4px; font-weight: 700; color: var(--ink2); }
+.cover h2 { font-family: var(--display); font-size: clamp(30px, 5vw, 44px); line-height: 1.05; margin: 4px 0 4px; color: var(--navy); text-wrap: balance; }
+.cover .sub { color: var(--ink2); padding-bottom: 12px; border-bottom: 3px solid var(--accent); margin-bottom: 18px; }
+.sheet h3.h1 { font-family: var(--display); font-size: 26px; color: var(--navy); margin: 34px 0 10px; padding-top: 18px; border-top: 1px solid var(--line); text-wrap: balance; }
+.sheet h4.h2 { font-size: 17px; color: var(--accent); margin: 20px 0 8px; }
+.sheet p { margin: 0 0 10px; max-width: 72ch; }
+.tw { overflow-x: auto; margin: 4px 0 6px; }
+table.t { border-collapse: collapse; width: 100%; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+table.t th { background: #16324f; color: #fff; font-weight: 700; padding: 6px 8px; text-align: center; white-space: nowrap; }
+table.t td { padding: 5px 8px; text-align: center; border-bottom: 1px solid var(--line); }
+table.t td:first-child, table.t th:first-child { text-align: left; font-weight: 700; }
+table.t tr:nth-child(even) td { background: var(--zebra); }
+table.t tr.hl td { background: var(--hl); }
+table.t tr.last td { font-weight: 700; }
+table.t.compare td:not(:first-child) { font-size: 14.5px; }
+.cap { font-size: 12.5px; color: var(--ink2); font-style: italic; text-align: center; margin: 2px 0 16px; }
+figure.ch { margin: 8px auto 4px; text-align: center; }
+figure.ch canvas { display: block; margin: 0 auto; }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 6px 0 16px; }
+.kpi { background: var(--zebra); border-radius: 8px; padding: 10px 12px; min-width: 0; }
+.kpi b { display: block; font-family: var(--display); font-size: 30px; line-height: 1; color: var(--navy); font-variant-numeric: tabular-nums; }
+.kpi.good b { color: var(--good) } .kpi.warn b { color: var(--alerta) }
+.kpi span { display: block; font-weight: 700; font-size: 13px; margin-top: 4px; }
+.kpi small { color: var(--ink2); font-size: 12px; }
+.box { border-left: 5px solid; border-radius: 0 8px 8px 0; padding: 10px 16px 8px; margin: 10px 0 14px; }
+.box .lbl { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; margin-bottom: 4px; }
+.box ul { margin: 0; padding-left: 18px; } .box li { margin-bottom: 5px; }
+.box.chave { border-color: var(--chave); background: var(--chave-bg) } .box.chave .lbl { color: var(--chave) }
+.box.acao { border-color: var(--acao); background: var(--acao-bg) } .box.acao .lbl { color: var(--acao) }
+.box.alerta { border-color: var(--alerta); background: var(--alerta-bg) } .box.alerta .lbl { color: var(--alerta) }
+.ficha { border: 1px solid var(--line); border-radius: var(--r); margin: 14px 0; overflow: hidden; }
+.ficha .fh { background: #16324f; color: #fff; padding: 8px 14px; display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+.ficha .fh b { font-family: var(--display); font-size: 22px; }
+.ficha .kpis { margin: 10px 12px; }
+.ficha .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; padding: 0 14px 6px; }
+.ficha .cols > div { border-top: 3px solid; padding-top: 6px; min-width: 0; }
+.ficha .cols h5 { margin: 0 0 4px; font-size: 12px; letter-spacing: 1px; }
+.ficha .cols ul { margin: 0; padding-left: 16px; font-size: 14px; } .ficha .cols li { margin-bottom: 4px; }
+.ficha .c1 { border-color: var(--good) } .ficha .c1 h5 { color: var(--good) }
+.ficha .c2 { border-color: var(--alerta) } .ficha .c2 h5 { color: var(--alerta) }
+.ficha .c3 { border-color: var(--accent) } .ficha .c3 h5 { color: var(--accent) }
+.ficha .extra { font-size: 13px; color: var(--ink2); padding: 4px 14px 12px; }
+ul.notes { font-size: 13px; color: var(--ink2); padding-left: 18px; }
+.empty { text-align: center; padding: 50px 20px; color: var(--ink2); }
+.empty h2 { font-family: var(--display); color: var(--navy); font-size: 28px; margin: 0 0 6px; }
+label.drop { display: block; border: 2px dashed var(--accent); background: var(--accent-soft); border-radius: var(--r); padding: 30px 16px; text-align: center; cursor: pointer; }
+label.drop.over { background: var(--surface); }
+label.drop b { font-family: var(--display); font-size: 24px; color: var(--navy); display: block; }
+label.drop input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.imports { display: grid; gap: 12px; margin-top: 16px; }
+.icard { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: grid; gap: 10px; }
+.icard .head { display: flex; gap: 10px; flex-wrap: wrap; align-items: baseline; }
+.icard .head b { font-family: var(--display); font-size: 22px; color: var(--navy); }
+.pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 700; padding: 2px 9px; border-radius: 20px; }
+.pill.ok { background: var(--acao-bg); color: var(--acao) } .pill.warn { background: var(--alerta-bg); color: var(--alerta) } .pill.info { background: var(--chave-bg); color: var(--chave) }
+.icard .grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 8px; }
+.icard .grid > div { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.icard .acts { display: flex; gap: 8px; flex-wrap: wrap; }
+.icard.err { border-color: var(--bad); }
+.icard ul { margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--alerta); }
+.notice { font-size: 13.5px; padding: 9px 12px; border-radius: 8px; background: var(--chave-bg); color: var(--ink); margin-bottom: 14px; }
+.notice.warn { background: var(--alerta-bg); }
+#toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: #16324f; color: #fff; padding: 10px 16px; border-radius: 10px; font-weight: 600; box-shadow: 0 6px 24px rgba(0,0,0,.25); z-index: 20; max-width: calc(100% - 32px); }
+.muted { color: var(--ink2); }
+@media (max-width: 720px) {
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ficha .cols { grid-template-columns: 1fr; }
+  .icard .grid { grid-template-columns: 1fr 1fr; }
+  nav.tabs { margin-left: 0; width: 100%; overflow-x: auto; flex-wrap: nowrap; }
+}
+@media (prefers-reduced-motion: no-preference) { .sheet { animation: rise .25s ease-out; } @keyframes rise { from { transform: translateY(6px); opacity: .6 } to { transform: none; opacity: 1 } } }
+</style>
+
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand"><span class="ball" aria-hidden="true"></span><div><h1>Atas de Pólo Aquático</h1><small>FPN · Direção Técnica Nacional</small></div></div>
+  <nav class="tabs" aria-label="Secções">
+    <button id="tab-jogo" data-view="jogo">Relatório do jogo</button>
+    <button id="tab-global" data-view="global">Análise global</button>
+    <button id="tab-importar" data-view="importar">Importar atas</button>
+    <button id="tab-atas" data-view="atas">Atas guardadas <span class="count" id="n-atas">0</span></button>
+  </nav>
+</div></header>
+
+<main class="wrap">
+  <div id="store-note" class="notice" hidden></div>
+
+  <section id="v-jogo" hidden>
+    <div class="toolbar">
+      <div class="field wide"><span>Jogo</span><select id="sel-jogo" aria-label="Jogo"></select></div>
+      <div class="exports" aria-label="Exportar relatório do jogo">
+        <button class="btn" data-exp="jogo-xlsx"><span class="ftag x">XLSX</span>Excel</button>
+        <button class="btn" data-exp="jogo-docx"><span class="ftag w">DOCX</span>Word</button>
+        <button class="btn" data-exp="jogo-pdf"><span class="ftag p">PDF</span>PDF</button>
+      </div>
+    </div>
+    <article id="rep-jogo" class="sheet"></article>
+  </section>
+
+  <section id="v-global" hidden>
+    <div class="toolbar">
+      <div class="field wide"><span>Competição</span><select id="f-comp" aria-label="Competição"></select></div>
+      <div class="field"><span>Género</span><select id="f-gen" aria-label="Género"><option value="">Todos</option><option>Masculino</option><option>Feminino</option></select></div>
+      <div class="field"><span>Desde</span><input type="date" id="f-de" aria-label="Desde"></div>
+      <div class="field"><span>Até</span><input type="date" id="f-ate" aria-label="Até"></div>
+      <div class="exports" aria-label="Exportar análise global">
+        <button class="btn" data-exp="global-xlsx"><span class="ftag x">XLSX</span>Excel</button>
+        <button class="btn" data-exp="global-docx"><span class="ftag w">DOCX</span>Word</button>
+        <button class="btn" data-exp="global-pdf"><span class="ftag p">PDF</span>PDF</button>
+      </div>
+    </div>
+    <article id="rep-global" class="sheet"></article>
+  </section>
+
+  <section id="v-importar" hidden>
+    <label class="drop" id="drop" for="file-in">
+      <b>Largue aqui as atas em PDF</b>
+      <span class="muted">ou toque para escolher ficheiros · pode juntar várias atas de uma vez</span>
+      <input type="file" id="file-in" accept="application/pdf,.pdf" multiple>
+    </label>
+    <div class="imports" id="imports"></div>
+  </section>
+
+  <section id="v-atas" hidden>
+    <div class="sheet" style="padding-top:20px">
+      <h3 class="h1" style="border:0;margin-top:0;padding-top:0">Atas guardadas</h3>
+      <p class="muted" id="atas-sub"></p>
+      <div class="exports" style="margin-bottom:12px"><button class="btn" data-backup="1">Exportar cópia (JSON)</button><label class="btn" for="restore-in" style="cursor:pointer">Importar cópia<input type="file" id="restore-in" accept=".json,application/json" style="position:absolute;width:1px;height:1px;opacity:0"></label></div>
+      <div class="tw"><table class="t" id="atas-table"></table></div>
+    </div>
+  </section>
+</main>
+<div id="toast" role="status" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
+<script>
+const PDF_WORKER_SRC = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+const SEED_GAMES = [{"id": "2026-10-03_SLB-CAP_ata1", "meta": {"ata": "1", "competicao": "Supertaça Portugal Femininos 2026", "jornada": "0", "categoria": "senior", "piscina": "", "genero": "Feminino", "data": "03/10/2026", "inicio": "15:01", "fim": "16:10", "local": "SLB", "visit": "CAP", "generoAta": "Masculino"}, "rosters": {"SLB": {"1": "Maria Sampaio", "2": "Alice Rodrigues", "3": "Joana Arromba", "4": "Aline Martins", "5": "Joana Gaspar", "6": "Ana Jardim (C)", "7": "Kerrigan Perret", "8": "Madalena Lousa", "9": "Clara Tojo", "10": "Sofia Nascimento", "11": "Valentina Bonelli", "12": "Leonor Arromba", "13": "Chantal Romão", "14": "Maria Pimentel"}, "CAP": {"1": "Beatriz Gusmão", "2": "Maria Barbosa", "3": "Íris Loureiro", "5": "Ana Rita Silva", "6": "Liliana Costa", "7": "Luana Silva", "9": "Luana Matos", "10": "Cristiana Silva (C)", "11": "Vanessa Freire", "13": "Ângela Sousa"}}, "coaches": {"SLB": "António Machado", "CAP": "João Pedro Santos"}, "events": ["1|08:00|CAP|13|15", "1|07:22|SLB|3|1", "1|06:58|SLB|8|1", "1|05:21|CAP|3|5", "1|05:21|SLB|6|3", "1|05:03|SLB|2|4", "1|04:29|SLB|6|4", "1|03:57|SLB|8|1", "1|03:35|CAP|9|4", "1|02:15|SLB|8|4", "1|02:15|SLB||9", "1|01:41|CAP|11|4", "1|01:38|SLB|10|2", "1|01:01|SLB|3|1", "1|00:38|SLB|9|1", "1|00:04|SLB|12|1", "2|08:00|SLB|1|15", "2|06:58|SLB|8|1", "2|06:30|SLB|4|1", "2|05:38|SLB|4|1", "2|05:02|SLB|9|4", "2|03:53|CAP|9|4", "2|03:17|SLB|9|4", "2|02:48|SLB|12|1", "2|02:32|SLB|7|4", "2|01:51|SLB|8|1", "2|01:29|SLB|14|4", "2|01:21|CAP|11|2", "2|00:26|SLB|3|1", "3|08:00|SLB|13|15", "3|07:35|SLB|6|1", "3|07:21|CAP|9|4", "3|07:13|SLB|8|2", "3|06:47|SLB|3|4", "3|06:25|SLB|4|1", "3|05:53|SLB|8|1", "3|05:03|SLB|12|1", "3|03:58|CAP|11|5", "3|03:58|SLB|11|3", "3|02:54|CAP|6|4", "3|02:54|SLB||8", "3|02:31|SLB|11|4", "3|02:31|CAP||8", "3|02:13|CAP|7|2", "3|01:59|CAP|6|4", "3|00:58|SLB|14|1", "3|00:01|CAP|2|1", "4|08:00|SLB|13|15", "4|06:10|SLB|2|1", "4|05:34|SLB|4|1", "4|04:55|SLB|8|1", "4|04:26|SLB|8|1", "4|03:06|SLB|4|1", "4|02:37|SLB|14|1", "4|02:04|CAP|3|4", "4|00:31|SLB|7|1"], "checks": ["1|07:22|1|0", "1|06:58|2|0", "1|05:21|3|0", "1|03:57|4|0", "1|01:38|5|0", "1|01:01|6|0", "1|00:38|7|0", "1|00:04|8|0", "2|06:58|9|0", "2|06:30|10|0", "2|05:38|11|0", "2|02:48|12|0", "2|01:51|13|0", "2|01:21|13|1", "2|00:26|14|1", "3|07:35|15|1", "3|07:13|16|1", "3|06:25|17|1", "3|05:53|18|1", "3|05:03|19|1", "3|03:58|20|1", "3|02:13|20|2", "3|00:58|21|2", "3|00:01|21|3", "4|06:10|22|3", "4|05:34|23|3", "4|04:55|24|3", "4|04:26|25|3", "4|03:06|26|3", "4|02:37|27|3", "4|00:31|28|3"], "warnings": [], "fileName": "PO6 - Ata de jogo - Supertaça Portugal Femininos 2026 - SLB vs CAP.pdf", "savedAt": "2026-11-13T19:57:21.682Z"}, {"id": "2026-10-03_VSC-CFP_ata2", "meta": {"ata": "2", "competicao": "Supertaça Carlos Meinêdo 2027", "jornada": "0", "categoria": "senior", "piscina": "", "genero": "Masculino", "data": "03/10/2026", "inicio": "17:32", "fim": "18:56", "local": "VSC", "visit": "CFP"}, "rosters": {"VSC": {"1": "Marcus Borup", "2": "Dorde Stanic", "3": "Xavier Sousa", "4": "Jose Jordao", "5": "Joao Camacho", "6": "Pedro Sousa", "7": "Rui Ramos", "8": "Salvador Lopes", "9": "Luis Moreira", "10": "Nuno Fernandes", "11": "Afonso Magalhães", "12": "Pedro Cunha (C)", "13": "Benjamin Jultved", "14": "Miguel Castro"}, "CFP": {"1": "Luís Leite", "2": "Tomás Magalhães", "3": "Alejo Pederneschi", "4": "Bernardo Barata", "5": "Claudio Bastos", "6": "Salvador Santos", "7": "Diogo Pinto", "8": "João Leite (C)", "9": "Rafael Monteiro", "10": "Valentino Fonseca", "11": "António Pereira", "12": "João Moreira", "13": "Samuel Veiga", "14": "Rafael Pereira"}}, "coaches": {"VSC": "Vitor Macedo", "CFP": "Miguel Ramalheira"}, "events": ["1|08:00|CFP|13|15", "1|07:11|VSC|2|1", "1|06:41|VSC|7|1", "1|05:54|VSC|2|1", "1|05:30|CFP|12|1", "1|03:54|VSC|11|4", "1|03:04|VSC|12|5", "1|03:04|CFP|3|3", "1|02:11|VSC|12|5", "1|02:11|CFP|3|3", "1|01:59|CFP|10|4", "1|01:02|VSC|3|4", "1|00:46|CFP|3|2", "1|00:20|VSC|5|1", "1|00:03|VSC|7|1", "1|00:03|CFP||9", "2|08:00|||12", "2|08:00|CFP|13|15", "2|07:36|CFP|12|1", "2|07:23|CFP|11|4", "2|06:31|VSC|11|4", "2|06:25|CFP|5|2", "2|05:58|VSC|4|5", "2|05:58|CFP|3|3", "2|05:05|VSC|10|1", "2|04:46|VSC|14|4", "2|04:06|VSC|6|1", "2|03:23|CFP|7|4", "2|03:14|VSC|10|2", "2|02:34|CFP|10|1", "2|02:15|VSC|6|1", "2|01:23|CFP|7|4", "2|00:47|CFP|2|1", "2|00:19|CFP|9|1", "3|08:00|VSC|13|15", "3|07:19|CFP|12|1", "3|06:53|VSC|2|1", "3|06:31|CFP|5|1", "3|03:48|VSC|8|1", "3|03:12|CFP|14|4", "3|03:00|VSC|2|2", "3|02:01|CFP|4|1", "3|01:26|VSC|3|5", "3|01:26|CFP|4|3", "3|01:00|CFP|11|1", "3|01:00|VSC||9", "3|00:27|VSC|5|4", "3|00:27|CFP||8", "3|00:12|CFP|12|2", "3|00:01|VSC|3|1", "4|08:00|VSC|1|15", "4|07:42|VSC|7|1", "4|06:41|CFP|8|4", "4|06:11|CFP|3|1", "4|05:53|CFP|8|5", "4|05:53|VSC|6|3", "4|04:30|CFP|5|1", "4|03:37|VSC|2|1", "4|03:06|CFP|12|1", "4|02:23|CFP|7|5", "4|02:23|VSC|7|3", "4|01:50|VSC|7|1", "4|00:45|VSC||8", "4|00:16|VSC||8"], "checks": ["1|07:11|1|0", "1|06:41|2|0", "1|05:54|3|0", "1|05:30|3|1", "1|03:04|3|2", "1|02:11|3|3", "1|00:46|3|4", "1|00:20|4|4", "1|00:03|5|4", "2|07:36|5|5", "2|06:25|5|6", "2|05:58|5|7", "2|05:05|6|7", "2|04:06|7|7", "2|03:14|8|7", "2|02:34|8|8", "2|02:15|9|8", "2|00:47|9|9", "2|00:19|9|10", "3|07:19|9|11", "3|06:53|10|11", "3|06:31|10|12", "3|03:48|11|12", "3|03:00|12|12", "3|02:01|12|13", "3|01:26|12|14", "3|01:00|12|15", "3|00:12|12|16", "3|00:01|13|16", "4|07:42|14|16", "4|06:11|14|17", "4|05:53|15|17", "4|04:30|15|18", "4|03:37|16|18", "4|03:06|16|19", "4|02:23|17|19", "4|01:50|18|19"], "warnings": [], "fileName": "PO3 - Ata de jogo - Supertaça Carlos Meinêdo Masculinos 2026 - VSC x CFP.pdf", "savedAt": "2026-11-13T19:57:21.682Z"}, {"id": "2026-11-07_FOCA-PPA_ata16", "meta": {"ata": "16", "competicao": "Campeonato Portugal A1 Masculinos 2026/27", "jornada": "0", "categoria": "senior", "piscina": "Felgueiras", "genero": "Masculino", "data": "07/11/2026", "inicio": "17:28", "fim": "18:37", "local": "FOCA", "visit": "PPA"}, "rosters": {"FOCA": {"1": "Tiago Carvalhais", "2": "Tiago Pereira", "3": "Rui Lira", "4": "Rui Rego", "5": "Duarte Pinto", "6": "Simao Medeiros", "7": "Vitor Pereira", "8": "Jose Cunha", "9": "Abilio Sousa", "10": "Gabriel Ferreira", "11": "Joao Sousa (C)", "12": "Pedro Pimenta", "13": "Jorge Martins", "14": "Paulo Pinto"}, "PPA": {"1": "Joao Pires", "2": "Andre Coelho", "3": "Mario Coelho", "4": "Ivo Costa", "5": "Tiago Leal", "6": "Gonçalo Lafuente", "7": "Renato Ferreira", "8": "Francisco Ferras", "9": "Goncalo Leal", "10": "Andre Pereira", "11": "Cristiano Santos (C)", "12": "Ricardo Teixeira", "13": "Jose Santos", "14": "Hugo Costa"}}, "coaches": {"FOCA": "Andre Mendes", "PPA": "Carlos Carvalho"}, "events": ["1|08:00|FOCA|1|15", "1|05:51|FOCA|11|4", "1|05:17|PPA|8|4", "1|05:12|PPA|11|5", "1|05:12|FOCA|5|13", "1|04:50|PPA|10|1", "1|04:07|PPA|8|1", "1|03:54|PPA|8|4", "1|01:56|FOCA|2|4", "1|01:38|PPA|10|2", "1|01:16|FOCA|5|4", "1|00:59|PPA|10|2", "2|08:00|FOCA|13|15", "2|07:40|FOCA|8|4", "2|07:03|PPA|10|1", "2|06:04|FOCA|5|1", "2|05:47|PPA|7|1", "2|03:20|PPA|7|1", "2|01:45|PPA|4|4", "2|01:33|FOCA|3|2", "2|00:02|PPA|1|5", "2|00:02|FOCA|14|13", "2|00:01|FOCA|14|1", "3|08:00|PPA|1|15", "3|07:05|PPA|11|1", "3|06:08|FOCA|10|4", "3|06:08|PPA||8", "3|05:50|PPA|3|2", "3|05:34|PPA|3|4", "3|05:34|FOCA||8", "3|05:25|FOCA|2|2", "3|05:09|FOCA|10|4", "3|04:32|PPA|8|1", "3|03:28|FOCA|11|5", "3|03:28|FOCA||9", "3|03:28|PPA|12|13", "3|02:51|PPA|4|5", "3|02:51|FOCA|12|3", "3|02:20|PPA|2|4", "3|01:31|FOCA|4|6", "3|01:24|FOCA|12|4", "3|00:51|FOCA|9|4", "4|08:00|FOCA|1|15", "4|07:01|FOCA|12|5", "4|07:01|PPA|10|13", "4|06:44|PPA|11|5", "4|06:44|FOCA|5|13", "4|05:54|FOCA|5|1", "4|05:17|PPA|5|5", "4|05:17|FOCA|6|3", "4|04:41|PPA|3|1", "4|04:04|PPA|7|1", "4|03:38|FOCA|9|1", "4|02:00|FOCA|6|4", "4|02:00|PPA||8", "4|01:34|PPA|8|4", "4|01:34|FOCA||8", "4|01:00|PPA|14|1", "4|00:16|PPA|14|1"], "checks": ["1|04:50|0|1", "1|04:07|0|2", "1|01:38|0|3", "1|00:59|0|4", "2|07:03|0|5", "2|06:04|1|5", "2|05:47|1|6", "2|03:20|1|7", "2|01:33|2|7", "2|00:01|3|7", "3|07:05|3|8", "3|05:50|3|9", "3|05:25|4|9", "3|04:32|4|10", "3|02:51|5|10", "4|05:54|6|10", "4|05:17|7|10", "4|04:41|7|11", "4|04:04|7|12", "4|03:38|8|12", "4|01:00|8|13", "4|00:16|8|14"], "warnings": [], "fileName": "PO1 - Ata de jogo - FOCA vs PPA.pdf", "savedAt": "2026-11-13T19:57:21.681Z"}, {"id": "2026-11-07_SCP-CNPO_ata13", "meta": {"ata": "13", "competicao": "Campeonato Portugal A1 Masculinos 2026/27", "jornada": "0", "categoria": "senior", "piscina": "Alvalade", "genero": "Masculino", "data": "07/11/2026", "inicio": "16:28", "fim": "18:05", "local": "SCP", "visit": "CNPO"}, "rosters": {"SCP": {"1": "Gonçalo Porto Silva", "2": "Diogo Lourenço", "3": "Tiago Gomes", "4": "Rodrigo Santos", "5": "Ricardo Mendes (C)", "6": "Oliver Galyas", "7": "André Machado", "8": "Goncalo Santos", "9": "Denis Kruglov", "10": "Zsombor Sarandi", "11": "Vasco Veríssimo", "12": "Mateus Magalhães", "13": "Vasco Cecílio", "14": "João Xavier"}, "CNPO": {"1": "Jorge Sousa", "2": "Rodrigo Loureiro", "3": "Luis Branco", "4": "Diogo Morim", "5": "Goncalo Monte", "6": "Andre Vieira", "7": "Rodrigo Santos", "8": "Pedro Coentrao (C)", "9": "Miguel Costa", "10": "Diogo Fonte", "11": "Diogo Ribeiro", "12": "Georgi Kuznetcov", "13": "Tiago Moreira"}}, "coaches": {"SCP": "Goncalo Abrunhosa", "CNPO": "Nuno Mariani"}, "events": ["1|08:00|SCP|1|15", "1|07:38|CNPO|4|1", "1|07:20|CNPO|10|5", "1|07:20|SCP|7|13", "1|07:01|SCP|9|4", "1|05:46|SCP|5|4", "1|05:27|SCP|2|1", "1|05:09|SCP|11|4", "1|04:59|CNPO|7|2", "1|04:42|SCP|9|1", "1|04:24|CNPO|10|1", "1|04:05|CNPO|4|4", "1|03:11|CNPO|8|5", "1|03:11|||12", "1|03:11|SCP|10|13", "1|02:26|SCP|5|1", "1|02:13|SCP|6|4", "1|01:37|SCP|2|1", "1|01:16|CNPO|12|1", "1|00:59|CNPO|2|4", "1|00:12|CNPO|9|1", "2|08:00|SCP|13|15", "2|06:01|CNPO|8|1", "2|05:42|SCP|8|1", "2|04:34|CNPO|4|4", "2|04:04|SCP|8|4", "2|03:56|CNPO|11|2", "2|03:38|SCP|12|1", "2|02:06|SCP|12|4", "2|01:41|SCP|4|1", "2|01:09|CNPO|7|4", "2|00:22|SCP|6|4", "2|00:16|CNPO|8|2", "2|00:16|||12", "3|08:00|SCP|13|15", "3|07:11|CNPO|8|4", "3|06:20|CNPO|9|1", "3|06:03|SCP|3|1", "3|05:45|CNPO|8|1", "3|05:38|CNPO|9|4", "3|04:17|SCP|9|4", "3|04:08|CNPO|7|2", "3|02:59|SCP|7|4", "3|02:57|SCP|10|5", "3|02:57|CNPO|10|3", "3|02:57|SCP||8", "3|00:11|CNPO|10|4", "4|08:00|SCP|13|15", "4|07:29|SCP|11|5", "4|07:29|CNPO|9|3", "4|07:12|SCP|10|1", "4|06:28|SCP|4|1", "4|06:05|CNPO|7|4", "4|06:00|CNPO|7|5", "4|06:00|SCP|10|3", "4|05:09|CNPO|10|1", "4|04:36|CNPO|9|1", "4|04:26|CNPO|10|4", "4|04:22|CNPO|3|4", "4|04:09|SCP|6|2", "4|03:31|CNPO|4|4", "4|03:31|SCP||8", "4|03:22|SCP|14|1", "4|03:13|SCP|10|4", "4|02:22|SCP|4|4", "4|02:22|CNPO||8", "4|02:07|CNPO|3|2", "4|01:57|SCP|10|1", "4|01:45|SCP|10|1", "4|01:45|CNPO||8", "4|00:20|SCP|14|1", "4|00:08|SCP|14|4", "4|00:04|CNPO|8|2", "4|00:04|SCP|6|6"], "checks": ["1|07:38|0|1", "1|05:27|1|1", "1|04:59|1|2", "1|04:42|2|2", "1|04:24|2|3", "1|02:26|3|3", "1|01:37|4|3", "1|01:16|4|4", "1|00:12|4|5", "2|06:01|4|6", "2|05:42|5|6", "2|03:56|5|7", "2|03:38|6|7", "2|01:41|7|7", "2|00:16|7|8", "3|06:20|7|9", "3|06:03|8|9", "3|05:45|8|10", "3|04:08|8|11", "3|02:57|8|12", "4|07:29|8|13", "4|07:12|9|13", "4|06:28|10|13", "4|06:00|11|13", "4|05:09|11|14", "4|04:36|11|15", "4|04:09|12|15", "4|03:22|13|15", "4|02:07|13|16", "4|01:57|14|16", "4|01:45|15|16", "4|00:20|16|16", "4|00:04|16|17"], "warnings": [], "fileName": "PO1 - Ata de jogo - SCP vs CNPO.pdf", "savedAt": "2026-11-13T19:57:21.682Z"}];
+
+/* ---- parser.js ---- */
+/* ===== Leitor de atas FPN (pólo aquático) =====
+   Entrada: lista de páginas, cada uma com items {s, x, y} (coordenadas PDF, y para cima).
+   Saída: objeto jogo { meta, rosters, coaches, events, checks } */
+function parseAta(pages) {
+  const items = [];
+  pages.forEach((pg, pi) => pg.forEach(it => { const s = String(it.s).replace(/\u00ad/g, "-").trim(); if (s) items.push({ s, x: it.x, y: it.y - pi * 2000, w: it.w || 0 }); }));
+  const warn = [];
+  const near = (a, b, t = 2.5) => Math.abs(a - b) <= t;
+  const find = (re) => items.find(i => (re instanceof RegExp ? re.test(i.s) : i.s === re));
+  const rightOf = (lab, maxDx = 200) => { if (!lab) return ""; const c = items.filter(i => near(i.y, lab.y, 3) && i.x > lab.x + 1 && i.x - lab.x < maxDx).sort((a, b) => a.x - b.x); return c.length ? c[0].s : ""; };
+  const val = (label, maxDx) => rightOf(find(label), maxDx);
+
+  const ataItem = find(/^ATA\s*N[ºo°.]*\s*\d+/i);
+  const meta = {
+    ata: ataItem ? (ataItem.s.match(/(\d+)/) || [])[1] : "",
+    competicao: val("Competição:", 205), jornada: val("Jornada:", 120), categoria: val("Categoria:", 120),
+    piscina: val("Piscina:", 205), genero: val("Género:", 120), data: val("Data:", 75), inicio: val("Início:", 40), fim: val("Fim:", 40),
+  };
+  if (/^Dimens|^G[ée]nero|^Jornada|^Unknown$/i.test(meta.piscina)) meta.piscina = "";
+  const e1 = find("EQUIPE 1:"), e2 = find("EQUIPE 2:");
+  if (!e1 || !e2) throw new Error("Não encontrei «EQUIPE 1» e «EQUIPE 2». Confirme que o ficheiro é uma ata de pólo aquático da FPN.");
+  const local = rightOf(e1, 120), visit = rightOf(e2, 120);
+  if (!local || !visit) throw new Error("Não consegui ler o nome das duas equipas.");
+  const split = e2.x - 5;
+  meta.local = local; meta.visit = visit;
+
+  // ---- plantéis
+  const tecnica = items.filter(i => i.s === "Equipa Técnica").sort((a, b) => b.y - a.y)[0];
+  const hdr = items.filter(i => i.s === "Jogador" && i.y < e1.y && i.y > e1.y - 30);
+  const rosters = { [local]: {}, [visit]: {} };
+  const yTop = hdr.length ? hdr[0].y - 2 : e1.y - 12, yBot = tecnica ? tecnica.y + 2 : yTop - 200;
+  const rowItems = items.filter(i => i.y < yTop && i.y > yBot);
+  const rowsY = [...new Set(rowItems.map(i => Math.round(i.y)))];
+  const done = new Set();
+  rowsY.sort((a, b) => b - a).forEach(y => {
+    if (done.has(y)) return; done.add(y); done.add(y + 1); done.add(y - 1);
+    [[local, i => i.x < split], [visit, i => i.x >= split]].forEach(([tm, side]) => {
+      const r = rowItems.filter(i => near(i.y, y, 1.6) && side(i)).sort((a, b) => a.x - b.x);
+      if (!r.length) return;
+      let txt = r.map(i => i.s).join(" ");
+      const m = txt.match(/^\s*(\d{3,8})\s+(\d{1,2})\s+(.+?)(?=\s+\dP\s|\s+\d+(\s|$)|$)/) || txt.match(/^\s*(\d{1,2})\s+([A-Za-zÀ-ÿ].+?)(?=\s+\dP\s|\s+\d+(\s|$)|$)/);
+      if (!m) return;
+      const num = m.length > 3 && /^\d{3,8}$/.test(m[1]) ? m[2] : m[1];
+      const name = (m.length > 3 && /^\d{3,8}$/.test(m[1]) ? m[3] : m[2]).trim();
+      if (name && /[A-Za-zÀ-ÿ]/.test(name)) rosters[tm][+num] = name;
+    });
+  });
+  const coaches = {};
+  items.filter(i => /^Treinador Principal$/i.test(i.s)).forEach(t => { const tm = t.x < split ? local : visit; const nm = items.filter(i => near(i.y, t.y, 2) && i.x > t.x + 20 && (t.x < split ? i.x < split : true)).sort((a, b) => a.x - b.x)[0]; if (nm) coaches[tm] = nm.s; });
+
+  // ---- desenvolvimento
+  const dev = find("DESENVOLVIMENTO");
+  if (!dev) throw new Error("Não encontrei a secção «DESENVOLVIMENTO» da ata.");
+  const tempos = items.filter(i => i.s === "Tempo" && i.y < dev.y + 1);
+  const headerRows = [...new Set(tempos.map(t => Math.round(t.y)))].sort((a, b) => b - a);
+  const stopY = (find("TIME OUT") || find("RESULTADOS") || { y: -1e9 }).y;
+  const events = [], extra = [], checks = [];
+  headerRows.forEach((hy, ri) => {
+    const row = tempos.filter(t => near(t.y, hy, 2)).sort((a, b) => a.x - b.x);
+    const lowY = ri + 1 < headerRows.length ? headerRows[ri + 1] + 8 : stopY;
+    row.forEach((t, ci) => {
+      const x0 = t.x - 6, x1 = ci + 1 < row.length ? row[ci + 1].x - 6 : 1e9;
+      const per = items.filter(i => /^Per[ií]odo\s*\d+/.test(i.s) && i.y > hy && i.y < hy + 20 && i.x >= x0 - 10 && i.x < x1).map(i => +i.s.match(/\d+/)[0])[0] || (ri * row.length + ci + 1);
+      const labs = {}; items.filter(i => near(i.y, hy, 2) && i.x >= x0 && i.x < x1).forEach(i => { labs[i.s] = i.x; });
+      const col = { t: labs["Tempo"], team: labs["B/A"], n: labs["Nº"], c: labs["Cód."], g: labs["Golos"] };
+      const cell = items.filter(i => i.y < hy - 2 && i.y > lowY && i.x >= x0 && i.x < x1);
+      const ys = [...new Set(cell.filter(i => /^\d\d:\d\d$/.test(i.s)).map(i => i.y))].sort((a, b) => b - a);
+      ys.forEach(y => {
+        const r = cell.filter(i => near(i.y, y, 2)).sort((a, b) => a.x - b.x);
+        const ev = { p: per, t: "", team: null, n: null, c: null, g: [] };
+        r.forEach(i => {
+          if (/^\d\d:\d\d$/.test(i.s) && !ev.t) { ev.t = i.s; return; }
+          const keys = Object.keys(col).filter(k => col[k] != null && k !== "t");
+          const k = keys.sort((a, b) => Math.abs(i.x - col[a]) - Math.abs(i.x - col[b]))[0];
+          if (k === "g" || (col.g != null && i.x > col.g - 4)) { (i.s.match(/\d+/g) || []).forEach(d => ev.g.push(+d)); return; }
+          if (k === "team") ev.team = i.s; else if (k === "n") ev.n = /^\d+$/.test(i.s) ? +i.s : ev.n; else if (k === "c") ev.c = /^\d+$/.test(i.s) ? +i.s : ev.c;
+        });
+        if (ev.c == null) { warn.push(`Linha sem código no ${per}.º período (${ev.t}).`); return; }
+        if (ev.team && ev.team !== local && ev.team !== visit) warn.push(`Equipa desconhecida «${ev.team}» no ${per}.º período (${ev.t}).`);
+        const rec = [ev.p, ev.t, ev.team || null, ev.n, ev.c];
+        if (ev.g.length >= 2) checks.push({ p: ev.p, t: ev.t, sc: [ev.g[0], ev.g[1]] });
+        if (ev.c === 16 || ev.c === 17) return;
+        if (per > 4 && ev.c === 12) return;
+        (per <= 4 ? events : extra).push(rec);
+      });
+    });
+  });
+  if (!events.length) throw new Error("Não encontrei eventos no desenvolvimento do jogo.");
+  return { meta, rosters, coaches, events, extra, checks, warnings: warn };
+}
+
+
+/* ---- engine.js ---- */
+/* ===== Motor de análise ===== */
+const GOALC = { 1: "acao", 2: "sup", 3: "pen" };
+const isGoal = c => c === 1 || c === 2 || c === 3;
+const isExcl = c => c === 4 || c === 6;
+const pct = (a, b) => { if (!b) return "–"; const v = Math.round(1000 * a / b + 1e-9) / 10; return v.toFixed(1).replace(".", ",") + "%"; };
+const pctN = (a, b) => b ? 100 * a / b : 0;
+const dec1 = v => (Math.round(v * 10 + 1e-9) / 10).toFixed(1).replace(".", ",");
+const mmss = s => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}`;
+const toSec = t => { const [m, s] = t.split(":").map(Number); return m * 60 + s; };
+
+function analyseGame(g) {
+  const { local: A, visit: B } = g.meta; const teams = [A, B]; const opp = { [A]: B, [B]: A };
+  const L = Math.max(60, ...g.events.map(e => toSec(e[1]))) || 480;
+  const ev = g.events.map((e, i) => ({ i, p: e[0], t: e[1], team: e[2], n: e[3], c: e[4], s: (e[0] - 1) * L + (L - toSec(e[1])), rem: toSec(e[1]) }))
+    .sort((a, b) => a.s - b.s || a.i - b.i);
+  const goals = ev.filter(e => isGoal(e.c) && e.team);
+  const name = (tm, n) => (g.rosters[tm] && g.rosters[tm][n]) || (n != null ? `N.º ${n}` : "–");
+  const T = {}; teams.forEach(tm => T[tm] = { team: tm, opp: opp[tm], golos: 0, acao: 0, sup: 0, pen: 0, nSup: 0, supConv: 0, inf: 0, infSof: 0, golInf: 0, excl: 0, penGanhos: 0, penCom: 0, penFalh: 0, sprints: 0, sprintGolo: 0, timeouts: 0, amarelos: 0, ult2: 0, gp: [0, 0, 0, 0], exclP: [0, 0, 0, 0], blocks: [0, 0, 0, 0], supByP: [[0, 0], [0, 0], [0, 0], [0, 0]], supState: { perder: [0, 0], empate: [0, 0], ganhar: [0, 0] }, ult4: [0, 0] });
+  const P = {}; const pl = (tm, n) => { const k = tm + "|" + n; return P[k] || (P[k] = { team: tm, n, name: name(tm, n), golos: 0, acao: 0, sup: 0, pen: 0, excl: 0, penCom: 0, penFalh: 0, faltas: [], game: g.id }); };
+  // marcador e fluxo
+  const sc = { [A]: 0, [B]: 0 }; const flow = [[0, 0, 0]]; let leader = null, leadChanges = 0, ties = 0; const maxLead = { [A]: 0, [B]: 0 };
+  const runs = []; let cur = null;
+  ev.forEach(e => {
+    const tm = e.team; const t = tm && T[tm];
+    if (isGoal(e.c) && tm) {
+      sc[tm]++; t.golos++; t[GOALC[e.c]]++; const p = pl(tm, e.n); p.golos++; p[GOALC[e.c]]++;
+      if (e.p <= 4) t.gp[e.p - 1]++;
+      t.blocks[Math.min(3, Math.floor((L - e.rem) / (L / 4)))]++;
+      if (e.rem <= L / 4) t.ult2++;
+      flow.push([e.s, sc[A], sc[B]]);
+      const d = sc[A] - sc[B]; const nl = d > 0 ? A : d < 0 ? B : null;
+      if (!nl) ties++; if (nl && leader && nl !== leader) leadChanges++; if (nl) leader = nl;
+      teams.forEach(x => maxLead[x] = Math.max(maxLead[x], sc[x] - sc[opp[x]]));
+      if (cur && cur.team === tm) { cur.n++; cur.to = e; } else { if (cur) runs.push(cur); cur = { team: tm, n: 1, from: e, to: e }; }
+    }
+    if (isExcl(e.c) && t) { t.excl++; if (e.p <= 4) t.exclP[e.p - 1]++; const p = pl(tm, e.n); p.excl++; p.faltas.push(`${e.p}P ${e.t.replace(/^0/, "")} ${e.c === 4 ? "E" : "(s/ letra)"}`); }
+    if (e.c === 5 && t) { t.penCom++; T[opp[tm]].penGanhos++; const p = pl(tm, e.n); p.penCom++; p.faltas.push(`${e.p}P ${e.t.replace(/^0/, "")} P`); }
+    if (e.c === 13 && t) { t.penFalh++; pl(tm, e.n).penFalh++; }
+    if (e.c === 15 && t) { t.sprints++; if (goals.some(x => x.team === tm && x.s >= e.s && x.s - e.s <= 35)) t.sprintGolo++; }
+    if (e.c === 8 && t) t.timeouts++;
+    if (e.c === 9 && t) t.amarelos++;
+  });
+  if (cur) runs.push(cur);
+  const scoreAt = (s, strict = true) => { const r = { [A]: 0, [B]: 0 }; goals.forEach(x => { if (strict ? x.s < s : x.s <= s) r[x.team]++; }); return r; };
+  // superioridades
+  const situations = []; const excls = ev.filter(e => isExcl(e.c) && e.team);
+  excls.forEach(e => {
+    if (excls.some(x => x.s === e.s && x.team !== e.team)) return;
+    const adv = opp[e.team]; const pend = e.p * L; const last = situations[situations.length - 1];
+    if (last && last.adv === adv && last.p === e.p && e.s <= last.end) {
+      if (goals.some(x => x.team === adv && x.s >= last.start && x.s <= e.s)) return;
+      last.end = Math.min(e.s + 20, pend); last.nExcl++; last.excluded.push(e.n); return;
+    }
+    situations.push({ adv, inf: e.team, p: e.p, t: e.t, start: e.s, end: Math.min(e.s + 20, pend), nExcl: 1, excluded: [e.n] });
+  });
+  situations.forEach(s => {
+    const gs = goals.filter(x => x.s >= s.start && x.s <= s.end);
+    const gg = gs.find(x => x.team === s.adv && x.c === 2);
+    s.conv = !!gg; s.golInf = gs.some(x => x.team !== s.adv && (x.c === 1 || x.c === 2));
+    if (gg) { s.scorer = gg.n; s.scorerName = name(s.adv, gg.n); s.secs = gg.s - s.start; }
+    const b = scoreAt(s.start); const d = b[s.adv] - b[s.inf]; s.state = d > 0 ? "ganhar" : d < 0 ? "perder" : "empate"; s.score = `${b[A]}-${b[B]}`;
+    const t = T[s.adv]; t.nSup++; if (s.p <= 4) { t.supByP[s.p - 1][0]++; if (s.conv) t.supByP[s.p - 1][1]++; } t.supState[s.state][0]++; if (s.conv) { t.supConv++; t.supState[s.state][1]++; }
+    const o = T[s.inf]; o.inf++; if (s.conv) o.infSof++; if (s.golInf) o.golInf++;
+    s.excludedNames = s.excluded.map(n => name(s.inf, n));
+  });
+  // timeouts
+  const timeouts = ev.filter(e => e.c === 8 && e.team).map(e => {
+    const pend = e.p * L; const w = goals.filter(x => x.s > e.s && x.s <= Math.min(e.s + 60, pend));
+    const sit = situations.find(s => s.adv === e.team && s.p === e.p && s.t === e.t);
+    const b = scoreAt(e.s, false);
+    return { team: e.team, p: e.p, t: e.t, score: `${b[A]}-${b[B]}`, gf: w.filter(x => x.team === e.team).length, ga: w.filter(x => x.team !== e.team).length, sup: !!sit, conv: sit ? sit.conv : null };
+  });
+  // métricas por equipa
+  teams.forEach(tm => {
+    const t = T[tm], gi = tm === A ? 0 : 1;
+    const ts = [0, ...goals.filter(x => x.team === tm).map(x => x.s), 4 * L];
+    let best = [0, 0, 0]; for (let i = 0; i < ts.length - 1; i++) { const d = ts[i + 1] - ts[i]; if (d > best[0]) best = [d, ts[i], ts[i + 1]]; }
+    const fmt = s => { if (s >= 4 * L) return "fim"; if (s === 0) return "início"; const p = Math.floor(s / L) + 1, r = L - s % L; return `${p}P ${mmss(r)}`; };
+    t.seca = best[0]; t.secaTxt = `${fmt(best[1])} → ${fmt(best[2])}`;
+    const conc = goals.map((x, i) => [x, i]).filter(([x]) => x.team === opp[tm]);
+    t.sofComSeg = conc.filter(([, i]) => i + 1 < goals.length).length; t.respostas = conc.filter(([, i]) => i + 1 < goals.length && goals[i + 1].team === tm).length;
+    t.ult4 = [goals.filter(x => x.team === tm && x.s >= 3 * L + L / 2).length, goals.filter(x => x.team === opp[tm] && x.s >= 3 * L + L / 2).length];
+    const parc = [1, 2, 3, 4].map(p => [goals.filter(x => x.p === p && x.team === A).length, goals.filter(x => x.p === p && x.team === B).length]);
+    t.perWon = parc.filter(p => p[gi] > p[1 - gi]).length; t.perDraw = parc.filter(p => p[gi] === p[1 - gi]).length;
+    const ps = Object.values(P).filter(p => p.team === tm && p.golos > 0).sort((a, b) => b.golos - a.golos);
+    t.marcadores = ps.length; t.top1 = ps[0] ? ps[0].golos : 0; t.top1Nome = ps[0] ? ps[0].name : ""; t.top3 = ps.slice(0, 3).reduce((a, p) => a + p.golos, 0);
+    t.fora = Object.values(P).filter(p => p.team === tm && p.faltas.length >= 3).length;
+    t.gm = sc[tm]; t.gs = sc[opp[tm]]; t.res = sc[tm] > sc[opp[tm]] ? "V" : sc[tm] < sc[opp[tm]] ? "D" : "E"; t.jogos = 1;
+    t.secs = situations.filter(s => s.adv === tm && s.conv).map(s => s.secs);
+    t.toSup = timeouts.filter(x => x.team === tm && x.sup).length; t.toSupConv = timeouts.filter(x => x.team === tm && x.sup && x.conv).length;
+  });
+  const parciais = [1, 2, 3, 4].map(p => [goals.filter(x => x.p === p && x.team === A).length, goals.filter(x => x.p === p && x.team === B).length]);
+  // validação com o marcador da ata
+  let mism = 0; (g.checks || []).forEach(c => { const s = (c.p - 1) * L + (L - toSec(c.t)); const r = scoreAt(s, false); if (r[A] !== c.sc[0] || r[B] !== c.sc[1]) mism++; });
+  const bestRun = {}; teams.forEach(tm => { const r = runs.filter(x => x.team === tm).sort((a, b) => b.n - a.n)[0]; bestRun[tm] = r ? { n: r.n, from: `${r.from.p}P ${r.from.t}`, to: `${r.to.p}P ${r.to.t}` } : null; });
+  return { id: g.id, meta: g.meta, rosters: g.rosters, coaches: g.coaches || {}, L, teams, T, players: Object.values(P), situations, timeouts, flow, score: [sc[A], sc[B]], parciais, leadChanges, ties, maxLead, bestRun,
+    first: goals[0] ? goals[0].team : null, lastGoal: goals[goals.length - 1] || null, validation: { checks: (g.checks || []).length, mismatches: mism }, events: ev, warnings: g.warnings || [] };
+}
+
+/* ===== Agregação ===== */
+const SUMK = ["golos", "acao", "sup", "pen", "nSup", "supConv", "inf", "infSof", "golInf", "excl", "penGanhos", "penCom", "penFalh", "sprints", "sprintGolo", "timeouts", "amarelos", "ult2", "seca0", "sofComSeg", "respostas", "gm", "gs", "jogos", "perWon", "perDraw", "fora", "toSup", "toSupConv"];
+function teamKey(an, tm) { return tm + "|" + (an.meta.genero || ""); }
+function aggregate(list) {
+  const teams = {}, players = {}; const all = { situations: [], timeouts: [], secs: [], blocks: [0, 0, 0, 0], golos: 0 };
+  const genders = {}; list.forEach(an => an.teams.forEach(tm => { (genders[tm] = genders[tm] || new Set()).add(an.meta.genero); }));
+  list.forEach(an => {
+    an.teams.forEach(tm => {
+      const k = teamKey(an, tm), s = an.T[tm];
+      const t = teams[k] || (teams[k] = { key: k, team: tm, label: genders[tm].size > 1 ? `${tm} (${(an.meta.genero || "?")[0]})` : tm, genero: an.meta.genero, V: 0, E: 0, D: 0, gp: [0, 0, 0, 0], exclP: [0, 0, 0, 0], blocks: [0, 0, 0, 0], supByP: [[0, 0], [0, 0], [0, 0], [0, 0]], supState: { perder: [0, 0], empate: [0, 0], ganhar: [0, 0] }, ult4: [0, 0], seca: 0, secaTxt: "", secs: [], jogosList: [] });
+      SUMK.forEach(x => t[x] = (t[x] || 0) + (s[x] || 0));
+      t[s.res]++; for (let i = 0; i < 4; i++) { t.gp[i] += s.gp[i]; t.exclP[i] += s.exclP[i]; t.blocks[i] += s.blocks[i]; t.supByP[i][0] += s.supByP[i][0]; t.supByP[i][1] += s.supByP[i][1]; }
+      ["perder", "empate", "ganhar"].forEach(z => { t.supState[z][0] += s.supState[z][0]; t.supState[z][1] += s.supState[z][1]; });
+      t.ult4[0] += s.ult4[0]; t.ult4[1] += s.ult4[1]; if (s.seca > t.seca) { t.seca = s.seca; t.secaTxt = `${s.secaTxt} vs ${s.opp}`; }
+      t.secs.push(...s.secs); t.jogosList.push(`${an.meta.local} ${an.score[0]}–${an.score[1]} ${an.meta.visit}`);
+      all.golos += s.golos; for (let i = 0; i < 4; i++) all.blocks[i] += s.blocks[i]; all.secs.push(...s.secs);
+    });
+    an.players.forEach(p => {
+      const k = p.team + "|" + an.meta.genero + "|" + p.name;
+      const q = players[k] || (players[k] = { team: p.team, teamLabel: "", genero: an.meta.genero, name: p.name, jogos: 0, golos: 0, acao: 0, sup: 0, pen: 0, excl: 0, penCom: 0, penFalh: 0, fora: 0 });
+      q.jogos++; ["golos", "acao", "sup", "pen", "excl", "penCom", "penFalh"].forEach(x => q[x] += p[x]); if (p.faltas.length >= 3) q.fora++;
+    });
+    an.situations.forEach(s => all.situations.push({ ...s, game: an }));
+    an.timeouts.forEach(s => all.timeouts.push({ ...s, game: an }));
+  });
+  Object.values(players).forEach(p => { const t = teams[p.team + "|" + p.genero]; p.teamLabel = t ? t.label : p.team; });
+  Object.values(teams).forEach(t => {
+    const ps = Object.values(players).filter(p => p.team === t.team && p.genero === t.genero && p.golos > 0).sort((a, b) => b.golos - a.golos);
+    t.marcadores = ps.length; t.top1 = ps[0] ? ps[0].golos : 0; t.top1Nome = ps[0] ? ps[0].name : ""; t.top3 = ps.slice(0, 3).reduce((a, p) => a + p.golos, 0);
+  });
+  return { teams: Object.values(teams), players: Object.values(players), ...all, games: list };
+}
+
+/* ===== Pontos-chave e ações ===== */
+function diagnose(t, ctx = {}) {
+  const J = Math.max(1, t.jogos), f = [], m = [], a = [];
+  const add = (arr, w, txt) => arr.push({ w, txt });
+  const dInf = t.inf - t.infSof;
+  if (t.nSup >= 3 && pctN(t.supConv, t.nSup) >= 45) add(f, 9, `Superioridade eficaz: ${t.supConv}/${t.nSup} (${pct(t.supConv, t.nSup)}).`);
+  if (t.inf >= 3 && pctN(dInf, t.inf) >= 70) add(f, 8, `Defesa em inferioridade sólida: ${dInf} de ${t.inf} defendidas (${pct(dInf, t.inf)}).`);
+  if (t.penGanhos >= 2 && t.penFalh === 0 && t.pen === t.penGanhos) add(f, 6, `Penáltis: ${t.pen} em ${t.penGanhos} convertidos.`);
+  if (t.excl / J <= 6) add(f, 5, `Disciplina: ${t.excl} exclusões${J > 1 ? ` (${dec1(t.excl / J)} por jogo)` : ""}.`);
+  if (t.sofComSeg >= 5 && pctN(t.respostas, t.sofComSeg) >= 55) add(f, 5, `Boa reação a golo sofrido: ${pct(t.respostas, t.sofComSeg)}.`);
+  if (t.marcadores / J >= 8 || t.marcadores >= 9) add(f, 4, `Ataque repartido: ${t.marcadores} marcadores diferentes.`);
+  if (t.acao / J >= 12) add(f, 6, `Forte em jogo jogado: ${t.acao} golos${J > 1 ? ` (${dec1(t.acao / J)} por jogo)` : ""}.`);
+  if (t.sprints / (4 * J) >= 0.75) add(f, 3, `Ganhou ${t.sprints} de ${4 * J} sprints.`);
+  if (t.perWon / J >= 3) add(f, 6, `Ganhou ${t.perWon} de ${4 * J} períodos.`);
+  if (t.ult4[0] - t.ult4[1] >= 2) add(f, 5, `Fecho forte: ${t.ult4[0]}–${t.ult4[1]} nos últimos 4 minutos${J > 1 ? " (somado)" : ""}.`);
+
+  if (t.nSup >= 4 && pctN(t.supConv, t.nSup) < 25) { add(m, 10, `Superioridade: ${t.supConv}/${t.nSup} (${pct(t.supConv, t.nSup)}).`); add(a, 10, "Prioridade: 2–3 jogadas de 6x5 com finalização entre 6 e 10 s e segunda opção até aos 20 s."); }
+  if (t.inf >= 3 && pctN(dInf, t.inf) < 55) { add(m, 9, `Inferioridade: ${t.infSof} golos sofridos em ${t.inf} (${pct(dInf, t.inf)} defendidas).`); add(a, 9, "Defesa em 5x6: posicionamento, bloqueio e pressão ao jogador livre."); }
+  if (t.penFalh >= 2) { add(m, 8, `Penáltis: ${t.pen} em ${t.penGanhos} (${t.penFalh} falhados).`); add(a, 8, "Rotina de penáltis sob fadiga, com 2 marcadores definidos."); }
+  if (t.penCom / J >= 3) { add(m, 7, `Cometeu ${t.penCom} faltas de penálti${J > 1 ? ` (${dec1(t.penCom / J)} por jogo)` : ""}.`); add(a, 7, "Defesa dentro dos 5 m: preferir a exclusão ao penálti."); }
+  if (t.excl / J >= 10 || Math.max(...t.exclP) >= 4 * J) { add(m, 7, `${t.excl} exclusões${Math.max(...t.exclP) >= 4 ? `, ${Math.max(...t.exclP)} no ${t.exclP.indexOf(Math.max(...t.exclP)) + 1}.º período` : ""}.`); add(a, 6, "Gestão das faltas pessoais a partir do 3.º período."); }
+  if (t.fora > 0) add(m, 5, `${t.fora} ${t.fora === 1 ? "jogador atingiu" : "jogadores atingiram"} 3 faltas pessoais.`);
+  if (t.seca >= 360) { add(m, 6, `${mmss(t.seca)} de jogo útil sem marcar (${t.secaTxt}).`); add(a, 5, "Jogada de recurso para quebrar períodos longos sem golo."); }
+  if (t.sofComSeg >= 5 && pctN(t.respostas, t.sofComSeg) < 40) { add(m, 5, `Reação a golo sofrido: ${pct(t.respostas, t.sofComSeg)}.`); add(a, 4, "Reposição rápida e contra-ataque depois de sofrer golo."); }
+  const zero = t.gp.map((v, i) => v === 0 ? i + 1 : 0).filter(Boolean); if (J === 1 && zero.length) add(m, 6, `0 golos no${zero.length > 1 ? "s" : ""} ${zero.join(".º e ")}.º período${zero.length > 1 ? "s" : ""}.`);
+  if (t.ult4[1] - t.ult4[0] >= 2) { add(m, 6, `Perdeu os últimos 4 minutos por ${t.ult4[0]}–${t.ult4[1]}.`); add(a, 6, "Gestão do 4.º período: posse longa e sem faltas evitáveis."); }
+  if (t.golos >= 8 && pctN(t.top3, t.golos) >= 70) { add(m, 4, `Dependência de 3 jogadores: ${pct(t.top3, t.golos)} dos golos.`); add(a, 3, "Desenvolver mais finalizadores."); }
+  if (t.marcadores >= 6 && t.top1 / J <= 2) { add(m, 3, `Sem finalizador de referência (melhor marcador com ${t.top1} golo${t.top1 === 1 ? "" : "s"}).`); add(a, 3, "Identificar e trabalhar 1–2 finalizadores principais."); }
+  if (t.sprints === 0) { add(m, 3, "Não ganhou nenhum sprint."); add(a, 2, "Técnica de sprint."); }
+  if (t.sprints >= 3 && t.sprintGolo === 0) { add(m, 2, `Ganhou ${t.sprints} sprints sem golo na posse inicial.`); add(a, 2, "Jogada preparada para a posse que sai do sprint."); }
+  if (t.toSup === 0 && t.nSup >= 4 && t.timeouts < 2 * J) add(a, 2, "Usar o timeout na exclusão adversária para preparar o 6x5.");
+  const top = arr => arr.sort((x, y) => y.w - x.w).slice(0, 4).map(x => x.txt);
+  const F = top(f); if (!F.length) F.push("Sem pontos fortes destacados pelos indicadores da ata.");
+  const A2 = top(a); if (!A2.length) A2.push("Manter o plano de jogo e confirmar com o vídeo.");
+  return { f: F, m: top(m), a: A2 };
+}
+
+function sumTeams(ts) { const r = {}; SUMK.forEach(k => r[k] = ts.reduce((a, t) => a + (t[k] || 0), 0)); return r; }
+
+function insightsFor(teamsArr, ctx) {
+  // ctx: { games: [an], situations, timeouts, secs, blocks, golos, single: bool }
+  const S = sumTeams(teamsArr); const ch = [], ac = [], al = [];
+  const supPct = pctN(S.supConv, S.nSup);
+  const sorted = teamsArr.filter(t => t.nSup >= 3).sort((a, b) => pctN(b.supConv, b.nSup) - pctN(a.supConv, a.nSup));
+  if (S.nSup) ch.push([`Superioridade: ${pct(S.supConv, S.nSup)} concretizadas (${S.supConv}/${S.nSup}). `,
+    sorted.length >= 2 ? `Melhor: ${sorted[0].label || sorted[0].team} (${pct(sorted[0].supConv, sorted[0].nSup)}); pior: ${sorted[sorted.length - 1].label || sorted[sorted.length - 1].team} (${pct(sorted[sorted.length - 1].supConv, sorted[sorted.length - 1].nSup)}).` : ""]);
+  // jogos equilibrados
+  const close = ctx.games.filter(an => Math.abs(an.score[0] - an.score[1]) <= 2 && an.score[0] !== an.score[1]);
+  if (close.length) {
+    const ok = close.filter(an => { const w = an.score[0] > an.score[1] ? an.teams[0] : an.teams[1], l = an.T[w].opp; const sw = an.T[w].supConv - an.T[w].infSof, sl = an.T[l].supConv - an.T[l].infSof; return sw > sl; });
+    ch.push([`A superioridade pesa nos jogos equilibrados: `, ctx.single ? (ok.length ? `quem venceu teve melhor saldo de superioridades (${close.map(an => { const w = an.score[0] > an.score[1] ? an.teams[0] : an.teams[1]; const t = an.T[w]; return `${w} ${t.supConv - t.infSof > 0 ? "+" : ""}${t.supConv - t.infSof}`; }).join(", ")}).` : "neste jogo a equipa vencedora não teve melhor saldo de superioridades; o resultado decidiu-se noutros momentos.")
+      : `em ${ok.length} de ${close.length} jogos decididos por 1–2 golos, venceu a equipa com melhor saldo de superioridades.`]);
+    if (ok.length) ac.push("Treinar o 6x5 e o 5x6 com o mesmo peso do 6x6: decidem os jogos equilibrados.");
+  }
+  // estado do marcador
+  const st = { perder: [0, 0], empate: [0, 0], ganhar: [0, 0] }; teamsArr.forEach(t => ["perder", "empate", "ganhar"].forEach(z => { st[z][0] += t.supState[z][0]; st[z][1] += t.supState[z][1]; }));
+  if (st.perder[0] >= 5 && st.empate[0] + st.ganhar[0] >= 5) {
+    const other = [st.empate[0] + st.ganhar[0], st.empate[1] + st.ganhar[1]];
+    if (pctN(st.perder[1], st.perder[0]) + 5 < pctN(other[1], other[0])) { ch.push(["Quem está a perder converte pior: ", `${pct(st.perder[1], st.perder[0])} contra ${pct(other[1], other[0])} com o jogo empatado ou em vantagem.`]); ac.push("Treinar o 6x5 em desvantagem simulada (marcador e tempo) e simplificar para uma jogada principal."); }
+    else ch.push(["Marcador e superioridade: ", `a perder ${pct(st.perder[1], st.perder[0])}, empatado ${pct(st.empate[1], st.empate[0])}, a ganhar ${pct(st.ganhar[1], st.ganhar[0])}.`]);
+  }
+  // timeout
+  const tos = ctx.timeouts.filter(x => x.sup); const toC = tos.filter(x => x.conv).length;
+  if (tos.length >= 2) { const rest = [S.nSup - tos.length, S.supConv - toC];
+    ch.push(["Timeout na exclusão adversária: ", `${toC} ${toC === 1 ? "golo" : "golos"} em ${tos.length} (${pct(toC, tos.length)}), contra ${pct(rest[1], rest[0])} nas restantes superioridades.`]);
+    if (pctN(toC, tos.length) > pctN(rest[1], rest[0])) ac.push("Ter uma jogada de 6x5 preparada para sair do timeout."); }
+  // custo das faltas
+  if (S.nSup >= 5 && S.penGanhos >= 3) { const ce = S.supConv / S.nSup, cp = S.pen / S.penGanhos;
+    const d2 = v => v.toFixed(2).replace(".", ",");
+    ch.push(["Custo das faltas: ", `cada exclusão custou ${d2(ce)} golos sofridos e cada falta de penálti ${d2(cp)}${cp > ce * 1.4 ? ` (${dec1(cp / ce)}× mais)` : ""}.`]);
+    if (cp > ce * 1.4) ac.push("Na defesa, evitar a falta dentro dos 5 m: é preferível a exclusão ao penálti."); }
+  // tempo até ao golo
+  if (ctx.secs.length >= 5) { const b = [ctx.secs.filter(s => s <= 10).length, ctx.secs.filter(s => s > 10 && s < 16).length, ctx.secs.filter(s => s >= 16).length];
+    ch.push(["Tempo até ao golo em superioridade: ", `média de ${dec1(ctx.secs.reduce((a, s) => a + s, 0) / ctx.secs.length)} s; ${b[0]} golos até aos 10 s, ${b[1]} entre os 11 e os 15 s e ${b[2]} entre os 16 e os 20 s.`]);
+    ac.push("Desenhar uma primeira finalização até aos 10 s e uma segunda para o fim da exclusão."); }
+  // penáltis
+  if (S.penGanhos >= 3) { const bad = teamsArr.filter(t => t.penFalh >= 2); ch.push(["Penáltis: ", `${pct(S.pen, S.penGanhos)} convertidos (${S.pen}/${S.penGanhos}).` + (bad.length ? ` Falharam 2 ou mais: ${bad.map(t => `${t.label || t.team} (${t.penFalh})`).join(", ")}.` : "")]);
+    if (bad.length) { al.push(["Penáltis falhados: ", bad.map(t => `${t.label || t.team} ${t.pen}/${t.penGanhos}`).join("; ") + "."]); ac.push("Rotina de penáltis no fim do treino, com fadiga e marcador definido."); } }
+  // fecho de período
+  if (ctx.golos >= 20) { const last = ctx.blocks[3]; ch.push(["Fecho dos períodos: ", `${pct(last, ctx.golos)} dos golos surgem nos últimos 2 minutos de cada período (${last} de ${ctx.golos}).`]);
+    if (pctN(last, ctx.golos) >= 27) ac.push("Treinar a última posse de cada período (ataque e defesa) com o relógio real."); }
+  // sprints
+  if (S.sprints >= 6) ch.push(["Sprints: ", `${S.sprintGolo} de ${S.sprints} sprints ganhos deram golo na posse inicial (até 35 s).`]);
+  // alertas disciplinares
+  const hiPen = teamsArr.filter(t => t.penCom / Math.max(1, t.jogos) >= 3); if (hiPen.length) al.push(["Faltas de penálti: ", hiPen.map(t => `${t.label || t.team} (${t.penCom})`).join(", ") + "."]);
+  const hiEx = teamsArr.filter(t => t.excl / Math.max(1, t.jogos) >= 10); if (hiEx.length) al.push(["Exclusões elevadas: ", hiEx.map(t => `${t.label || t.team} (${t.excl})`).join(", ") + "."]);
+  return { ch: ch.slice(0, 7), ac: [...new Set(ac)].slice(0, 6), al };
+}
+
+function dynamicsText(an) {
+  const [A, B] = an.teams, out = [];
+  const w = an.score[0] > an.score[1] ? A : an.score[0] < an.score[1] ? B : null;
+  out.push(`${an.first} marcou primeiro. ${an.leadChanges} troca${an.leadChanges === 1 ? "" : "s"} de liderança e ${an.ties} empate${an.ties === 1 ? "" : "s"}. Maior vantagem: ${A} +${an.maxLead[A]}, ${B} +${an.maxLead[B]}.`);
+  an.teams.forEach(tm => { const r = an.bestRun[tm]; if (r && r.n >= 4) out.push(`${tm} fez uma série de ${r.n} golos seguidos (${r.from} → ${r.to}).`); });
+  an.teams.forEach(tm => { const t = an.T[tm]; if (t.seca >= 360) out.push(`${tm} esteve ${mmss(t.seca)} de jogo útil sem marcar (${t.secaTxt}).`); });
+  if (w && Math.abs(an.score[0] - an.score[1]) === 1 && an.lastGoal && an.lastGoal.p === 4 && an.lastGoal.rem <= 60) out.push(`O golo decisivo surgiu a ${an.lastGoal.rem} s do fim (${an.lastGoal.team}, ${an.lastGoal.c === 2 ? "em superioridade" : an.lastGoal.c === 3 ? "de penálti" : "em jogo jogado"}).`);
+  if (w) { const l = an.T[w].opp; if (an.maxLead[l] >= 2) out.push(`${w} recuperou de uma desvantagem de ${an.maxLead[l]} golos.`); }
+  return out;
+}
+
+
+/* ---- charts.js ---- */
+/* ===== Gráficos em canvas (ecrã e exportação) ===== */
+const CH_FONT = "Barlow, 'Helvetica Neue', Arial, sans-serif";
+const PAL_LIGHT = { bg: "#ffffff", ink: "#0f1e2e", ink2: "#56606b", grid: "#e4e7ea", empty: "#c3c8cd", c1: "#2a78d6", c2: "#eb6834", c3: "#1baf7a", good: "#13955a", bad: "#d64541", heat1: "#1c5cab", heat2: "#c2410c" };
+function chartHeight(spec, W) {
+  switch (spec.type) {
+    case "picto": return 46 + spec.rows.length * 30;
+    case "hbar": return 30 + spec.rows.length * 27 + (spec.xlabel ? 22 : 0);
+    case "stack100": return 46 + spec.rows.length * 30 + 18;
+    case "heat": return 34 + spec.rows.length * 30;
+    case "vbars": return 230;
+    case "diff": return 230;
+    default: return 220;
+  }
+}
+function drawChart(cv, spec, W, pal, scale) {
+  const H = chartHeight(spec, W); scale = scale || (window.devicePixelRatio || 1);
+  cv.width = Math.round(W * scale); cv.height = Math.round(H * scale);
+  if (cv.style) { cv.style.width = "100%"; cv.style.maxWidth = W + "px"; cv.style.aspectRatio = `${W} / ${H}`; cv.style.height = "auto"; }
+  const x = cv.getContext("2d"); x.setTransform(scale, 0, 0, scale, 0, 0);
+  x.fillStyle = pal.bg; x.fillRect(0, 0, W, H);
+  const font = (s, w = 500) => x.font = `${w} ${s}px ${CH_FONT}`;
+  const text = (t, X, Y, o = {}) => { font(o.size || 12, o.w || 500); x.fillStyle = o.color || pal.ink; x.textAlign = o.align || "left"; x.textBaseline = o.base || "middle"; x.fillText(t, X, Y); };
+  const rr = (X, Y, w, h, r, fill) => { if (w <= 0 || h <= 0) return; r = Math.min(r, w / 2, h / 2); x.beginPath(); x.moveTo(X + r, Y); x.arcTo(X + w, Y, X + w, Y + h, r); x.arcTo(X + w, Y + h, X, Y + h, r); x.arcTo(X, Y + h, X, Y, r); x.arcTo(X, Y, X + w, Y, r); x.closePath(); x.fillStyle = fill; x.fill(); };
+  const labelW = rows => { font(12, 600); return Math.min(170, Math.max(40, ...rows.map(r => x.measureText(r.label).width)) + 14); };
+  const P = spec.type;
+  if (P === "picto") {
+    const lw = labelW(spec.rows), mx = Math.max(1, ...spec.rows.map(r => r.n));
+    const right = 110, avail = W - lw - right - 10; const step = Math.min(24, avail / mx), rad = Math.max(3.5, Math.min(8.5, step * 0.36));
+    const col = spec.color || pal.c1;
+    x.beginPath(); x.arc(lw + 6, 14, 6, 0, 7); x.fillStyle = col; x.fill(); text(spec.legend ? spec.legend[0] : "Com golo", lw + 18, 14, { size: 11, color: pal.ink2 });
+    font(11); const off = lw + 30 + x.measureText(spec.legend ? spec.legend[0] : "Com golo").width;
+    x.beginPath(); x.arc(off, 14, 6, 0, 7); x.strokeStyle = pal.empty; x.lineWidth = 1.6; x.stroke(); text(spec.legend ? spec.legend[1] : "Sem golo", off + 12, 14, { size: 11, color: pal.ink2 });
+    if (spec.note) text(spec.note, W - 8, 14, { size: 11, color: pal.ink2, align: "right" });
+    spec.rows.forEach((r, i) => {
+      const y = 46 + i * 30; text(r.label, 4, y, { w: 700, size: 12.5 });
+      for (let j = 0; j < r.n; j++) { const cx = lw + rad + 2 + j * step; x.beginPath(); x.arc(cx, y, rad, 0, 7); if (j < r.k) { x.fillStyle = col; x.fill(); } else { x.strokeStyle = pal.empty; x.lineWidth = 1.5; x.stroke(); } }
+      text(`${r.k}/${r.n}`, W - right + 8, y, { size: 12, color: pal.ink2 }); text(r.n ? pct(r.k, r.n) : "–", W - 6, y, { size: 12.5, w: 700, align: "right" });
+    });
+  } else if (P === "hbar") {
+    const lw = labelW(spec.rows); const vals = spec.rows.map(r => r.v); const div = spec.diverging;
+    const lo = div ? Math.min(0, ...vals, -(spec.span || 1)) : 0, hi = spec.max != null ? spec.max : Math.max(1e-9, ...vals) * 1.0;
+    const hi2 = div ? Math.max(hi, -lo, 1) : hi, lo2 = div ? -hi2 : 0;
+    const right = spec.textW || 120, x0 = lw, x1 = W - right; const sx = v => x0 + (v - lo2) / (hi2 - lo2) * (x1 - x0);
+    const top = 14;
+    x.strokeStyle = pal.grid; x.lineWidth = 1; [0.25, 0.5, 0.75, 1].forEach(f => { const X = sx(lo2 + f * (hi2 - lo2)); x.beginPath(); x.moveTo(X, top - 6); x.lineTo(X, top + spec.rows.length * 27 - 6); x.stroke(); });
+    spec.rows.forEach((r, i) => {
+      const y = top + i * 27; text(r.label, 4, y + 6, { w: 700, size: 12.5 });
+      const a = sx(Math.min(0, r.v)), b = sx(Math.max(0, r.v)); rr(Math.min(a, b), y - 3, Math.max(2, Math.abs(b - a)), 18, 4, r.color || spec.color || pal.c1);
+      const tx = r.v >= 0 ? Math.max(a, b) + 6 : Math.min(a, b) - 6; text(r.text != null ? r.text : String(r.v), div ? tx : Math.max(a, b) + 6, y + 6, { size: 12, w: 600, align: div && r.v < 0 ? "right" : "left" });
+    });
+    if (div) { x.strokeStyle = pal.ink2; x.lineWidth = 1.2; x.beginPath(); x.moveTo(sx(0), top - 8); x.lineTo(sx(0), top + spec.rows.length * 27 - 4); x.stroke(); }
+    if (spec.avg != null) { const X = sx(spec.avg.v); x.setLineDash([4, 4]); x.strokeStyle = pal.ink2; x.beginPath(); x.moveTo(X, 2); x.lineTo(X, top + spec.rows.length * 27 - 4); x.stroke(); x.setLineDash([]); text(spec.avg.label, Math.min(X + 5, W - 4), H - (spec.xlabel ? 30 : 10), { size: 11, color: pal.ink2, align: X + 5 > W - 150 ? "right" : "left" }); }
+    if (spec.xlabel) text(spec.xlabel, (x0 + x1) / 2, H - 9, { size: 11, color: pal.ink2, align: "center" });
+  } else if (P === "stack100") {
+    const lw = labelW(spec.rows), right = 76, x0 = lw, x1 = W - right; const cols = spec.colors || [pal.c1, pal.c2, pal.c3];
+    let lx = lw; spec.legend.forEach((l, i) => { rr(lx, 8, 12, 12, 3, cols[i]); text(l, lx + 17, 14, { size: 11, color: pal.ink2 }); font(11); lx += 32 + x.measureText(l).width; });
+    spec.rows.forEach((r, i) => {
+      const y = 44 + i * 30, tot = r.parts.reduce((a, b) => a + b, 0) || 1; let cx = x0; text(r.label, 4, y, { w: 700, size: 12.5 });
+      r.parts.forEach((v, j) => { const w = (x1 - x0) * v / tot; if (v) { rr(cx + 1, y - 10, w - 2, 20, 4, cols[j]); if (w > 20) text(String(v), cx + w / 2, y, { size: 11.5, w: 700, color: "#ffffff", align: "center" }); } cx += w; });
+      text(`${r.total != null ? r.total : tot} golos`, W - 6, y, { size: 11.5, color: pal.ink2, align: "right" });
+    });
+    [0, 25, 50, 75, 100].forEach(v => text(v + "%", x0 + (x1 - x0) * v / 100, H - 8, { size: 10, color: pal.ink2, align: "center" }));
+  } else if (P === "heat") {
+    const lw = labelW(spec.rows), right = 64, cw = (W - lw - right) / spec.cols.length; const mx = Math.max(1, ...spec.rows.flatMap(r => r.vals)); const base = spec.color || pal.heat1;
+    const mix = f => { const h = base.replace("#", ""); const c = [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16)); const b = [0, 2, 4].map(i => parseInt(pal.bg.replace("#", "").substr(i, 2), 16)); return `rgb(${c.map((v, i) => Math.round(b[i] + (v - b[i]) * f)).join(",")})`; };
+    spec.cols.forEach((c, j) => text(c, lw + cw * j + cw / 2, 12, { size: 11.5, color: pal.ink2, align: "center" }));
+    text(spec.sumLabel || "Total", W - right / 2, 12, { size: 11.5, color: pal.ink2, align: "center" });
+    spec.rows.forEach((r, i) => {
+      const y = 26 + i * 30; text(r.label, 4, y + 14, { w: 700, size: 12.5 });
+      r.vals.forEach((v, j) => { const f = 0.08 + 0.92 * v / mx; rr(lw + cw * j + 1.5, y + 1, cw - 3, 27, 3, v ? mix(f) : mix(0.04)); text(String(v), lw + cw * j + cw / 2, y + 14.5, { size: 12.5, w: 700, color: f > 0.6 ? "#ffffff" : pal.ink, align: "center" }); });
+      text(String(r.vals.reduce((a, b) => a + b, 0)), W - right / 2, y + 14.5, { size: 12.5, w: 600, color: pal.ink2, align: "center" });
+      if (spec.sepEvery && (i + 1) % spec.sepEvery === 0 && i < spec.rows.length - 1) { x.strokeStyle = pal.ink2; x.lineWidth = 1; x.beginPath(); x.moveTo(2, y + 29.5); x.lineTo(W - 2, y + 29.5); x.stroke(); }
+    });
+  } else if (P === "vbars") {
+    const groups = spec.groups, nb = groups.reduce((a, g) => a + g.bars.length, 0), gapG = 26, left = 34, right = 8;
+    const bw = (W - left - right - gapG * (groups.length - 1)) / nb; const raw = Math.max(1, ...groups.flatMap(g => g.bars.map(b => b.v))) * 1.2; const st = [1, 2, 2.5, 5, 10].map(f => f * Math.pow(10, Math.floor(Math.log10(raw / 4)))).find(s => s * 4 >= raw) || raw / 4; const max = spec.max || st * 4;
+    const y0 = H - 30, y1 = 30, sy = v => y0 - (v / max) * (y0 - y1);
+    x.strokeStyle = pal.grid; x.lineWidth = 1; for (let k = 0; k <= 4; k++) { const v = max * k / 4; const Y = sy(v); x.beginPath(); x.moveTo(left, Y); x.lineTo(W - right, Y); x.stroke(); text(spec.unit === "%" ? Math.round(v) + "%" : String(Math.round(v * 10) / 10).replace(".", ","), left - 5, Y, { size: 10, color: pal.ink2, align: "right" }); }
+    let cx = left; groups.forEach(g => {
+      if (g.title) text(g.title, cx, 12, { size: 11.5, w: 700, color: pal.ink2 });
+      g.bars.forEach(b => { const X = cx + bw * 0.18, w = bw * 0.64; rr(X, sy(b.v), w, y0 - sy(b.v), 4, b.color || pal.c1); text(b.text, X + w / 2, sy(b.v) - 9, { size: 11, w: 600, align: "center" }); text(b.label, X + w / 2, y0 + 13, { size: 11, color: pal.ink2, align: "center" }); cx += bw; });
+      cx += gapG;
+    });
+    if (spec.avg) { const Y = sy(spec.avg.v); x.setLineDash([4, 4]); x.strokeStyle = pal.ink2; x.beginPath(); x.moveTo(left, Y); x.lineTo(W - right, Y); x.stroke(); x.setLineDash([]); text("– – " + spec.avg.label, W - right, 12, { size: 10.5, color: pal.ink2, align: "right" }); }
+  } else if (P === "diff") {
+    const { flow, L, local, visit } = spec; const left = 30, right = 8, top = 22, bot = H - 24; const end = 4 * L;
+    const d = flow.map(f => f[1] - f[2]); const lim = Math.max(3, ...d.map(Math.abs)) + 1; const sy = v => top + (lim - v) / (2 * lim) * (bot - top), sx = s => left + s / end * (W - left - right);
+    x.strokeStyle = pal.grid; x.lineWidth = 1; [1, 2, 3].forEach(q => { const X = sx(q * L); x.beginPath(); x.moveTo(X, top); x.lineTo(X, bot); x.stroke(); });
+    [-lim + 1, 0, lim - 1].forEach(v => text((v > 0 ? "+" : "") + v, left - 6, sy(v), { size: 10, color: pal.ink2, align: "right" }));
+    const pts = []; for (let i = 0; i < flow.length; i++) { const s0 = flow[i][0], s1 = i + 1 < flow.length ? flow[i + 1][0] : end; pts.push([s0, d[i]], [s1, d[i]]); }
+    [[1, pal.c1], [-1, pal.c2]].forEach(([sg, col]) => { x.beginPath(); x.moveTo(sx(0), sy(0)); pts.forEach(([s, v]) => x.lineTo(sx(s), sy(sg * v > 0 ? v : 0))); x.lineTo(sx(end), sy(0)); x.closePath(); x.fillStyle = col; x.globalAlpha = 0.85; x.fill(); x.globalAlpha = 1; });
+    x.strokeStyle = pal.ink; x.lineWidth = 1; x.beginPath(); x.moveTo(sx(0), sy(0)); x.lineTo(sx(end), sy(0)); x.stroke();
+    text(`▲ ${local} na frente`, left + 6, top - 10, { size: 11, w: 700, color: pal.c1 }); text(`▼ ${visit} na frente`, W - right - 4, top - 10, { size: 11, w: 700, color: pal.c2, align: "right" });
+    ["1.º P", "2.º P", "3.º P", "4.º P"].forEach((p, i) => text(p, sx(i * L + L / 2), bot + 14, { size: 10.5, color: pal.ink2, align: "center" }));
+  }
+  return H;
+}
+function chartPNG(spec, W = 900, fmt = "png") { const cv = document.createElement("canvas"); const H = drawChart(cv, spec, W, PAL_LIGHT, 2); return { url: fmt === "jpeg" ? cv.toDataURL("image/jpeg", 0.88) : cv.toDataURL("image/png"), w: W, h: H }; }
+
+/* ---- report.js ---- */
+/* ===== Modelo do relatório (blocos comuns a ecrã, Word e PDF) ===== */
+const sgn = v => (v > 0 ? "+" : "") + v;
+const NOTAS = [
+  "Fonte: atas oficiais do Conselho Nacional de Arbitragem (FPN), lidas automaticamente. O marcador recalculado é conferido com o marcador registado na ata.",
+  "Códigos: 1 golo; 2 golo em superioridade; 3 golo de penálti; 4 exclusão; 5 falta de penálti; 6 falta pessoal sem letra (tratada como exclusão); 8 timeout; 9 cartão amarelo ao treinador; 13 penálti falhado; 15 sprint ganho.",
+  "Superioridade: janela de 20 s após a exclusão, limitada ao fim do período; exclusões sobrepostas da mesma equipa contam como uma situação (6x4). A ata não regista regressos antecipados, pelo que a janela é uma aproximação.",
+  "Estado do marcador: resultado imediatamente antes da exclusão, visto pela equipa em superioridade. Resposta a golo sofrido: o golo seguinte do jogo é da equipa que sofreu. Sprint com golo: golo nos 35 s seguintes ao sprint ganho.",
+  "As atas não registam remates, assistências, defesas nem perdas de bola; não é possível calcular eficácia de remate ou de guarda-redes. Com poucos jogos, as conclusões são indicativas e devem ser confirmadas com vídeo.",
+];
+function supTableRows(ts) { return ts.map(t => [t.label || t.team, t.nSup, t.supConv, pct(t.supConv, t.nSup), t.inf, t.infSof, pct(t.inf - t.infSof, t.inf), sgn(t.supConv - t.infSof)]); }
+function stateBars(ts) {
+  const st = { perder: [0, 0], empate: [0, 0], ganhar: [0, 0] }, per = [[0, 0], [0, 0], [0, 0], [0, 0]];
+  ts.forEach(t => { ["perder", "empate", "ganhar"].forEach(z => { st[z][0] += t.supState[z][0]; st[z][1] += t.supState[z][1]; }); t.supByP.forEach((v, i) => { per[i][0] += v[0]; per[i][1] += v[1]; }); });
+  const bar = (lab, a) => ({ label: lab, v: pctN(a[1], a[0]), text: a[0] ? `${pct(a[1], a[0])} (${a[1]}/${a[0]})` : "–" });
+  return { groups: [{ title: "Marcador no momento da exclusão", bars: [bar("A perder", st.perder), bar("Empatado", st.empate), bar("A ganhar", st.ganhar)] }, { title: "Período", bars: per.map((a, i) => bar(`${i + 1}.º P`, a)) }] };
+}
+function secsBins(secs) { const b = [[0, 5], [6, 10], [11, 15], [16, 20]].map(([a, z]) => secs.filter(s => s >= a && s <= z).length); return { groups: [{ title: "", bars: b.map((v, i) => ({ label: ["0–5 s", "6–10 s", "11–15 s", "16–20 s"][i], v, text: `${v}` })) }] }; }
+function fichaBlock(t, title, sub) {
+  const d = diagnose(t);
+  return { t: "ficha", title, sub, tiles: [[pct(t.supConv, t.nSup), "Superioridade", `${t.supConv}/${t.nSup}`], [pct(t.inf - t.infSof, t.inf), "Inferioridade defendida", `${t.infSof} ${t.infSof === 1 ? "sofrido" : "sofridos"} em ${t.inf}`], [t.penGanhos ? `${t.pen}/${t.penGanhos}` : "–", "Penáltis", `${t.penCom} cometidos`], [String(t.excl), "Exclusões", t.exclP.join("-") + " por período"]],
+    f: d.f, m: d.m, a: d.a, extra: `Golos ${t.golos} (jogo jogado ${t.acao} · sup. ${t.sup} · pen. ${t.pen}); por período ${t.gp.join("-")}; maior período sem marcar ${mmss(t.seca)}; resposta a golo sofrido ${pct(t.respostas, t.sofComSeg)}; sprints ganhos ${t.sprints}; melhor marcador ${t.top1Nome.replace(" (C)", "")} (${t.top1}).` };
+}
+
+function gameReport(an) {
+  const [A, B] = an.teams, TA = an.T[A], TB = an.T[B], M = an.meta, b = [];
+  const ts = [TA, TB];
+  const ins = insightsFor(ts, { games: [an], timeouts: an.timeouts, secs: [...TA.secs, ...TB.secs], blocks: [0, 1, 2, 3].map(i => TA.blocks[i] + TB.blocks[i]), golos: an.score[0] + an.score[1], single: true });
+  b.push({ t: "cover", eyebrow: "FPN · DIREÇÃO TÉCNICA NACIONAL · RELATÓRIO DE JOGO", title: `${A} ${an.score[0]}–${an.score[1]} ${B}`, sub: [M.competicao, M.data, M.piscina, M.ata ? `Ata n.º ${M.ata}` : ""].filter(Boolean).join(" · ") });
+  b.push({ t: "table", head: ["Indicador", A, B], widths: [46, 27, 27], compare: true, rows: [
+    ["Resultado", an.score[0], an.score[1]], ["Parciais", an.parciais.map(p => p[0]).join(" · "), an.parciais.map(p => p[1]).join(" · ")],
+    ["Superioridades concretizadas", `${TA.supConv}/${TA.nSup} · ${pct(TA.supConv, TA.nSup)}`, `${TB.supConv}/${TB.nSup} · ${pct(TB.supConv, TB.nSup)}`],
+    ["Inferioridades defendidas", `${TA.inf - TA.infSof}/${TA.inf} · ${pct(TA.inf - TA.infSof, TA.inf)}`, `${TB.inf - TB.infSof}/${TB.inf} · ${pct(TB.inf - TB.infSof, TB.inf)}`],
+    ["Saldo de superioridades", sgn(TA.supConv - TA.infSof), sgn(TB.supConv - TB.infSof)],
+    ["Penáltis convertidos", TA.penGanhos ? `${TA.pen}/${TA.penGanhos}` : "–", TB.penGanhos ? `${TB.pen}/${TB.penGanhos}` : "–"],
+    ["Golos: jogo jogado · sup. · pen.", `${TA.acao} · ${TA.sup} · ${TA.pen}`, `${TB.acao} · ${TB.sup} · ${TB.pen}`],
+    ["Exclusões · faltas de penálti", `${TA.excl} · ${TA.penCom}`, `${TB.excl} · ${TB.penCom}`],
+    ["Sprints ganhos", TA.sprints, TB.sprints], ["Timeouts", TA.timeouts, TB.timeouts],
+    ["Treinador principal", (an.coaches || {})[A] || "–", (an.coaches || {})[B] || "–"]] });
+  b.push({ t: "box", kind: "chave", items: ins.ch });
+  if (ins.al.length) b.push({ t: "box", kind: "alerta", items: ins.al });
+  b.push({ t: "box", kind: "acao", items: ins.ac.length ? ins.ac : ["Sem ações prioritárias destacadas pelos indicadores da ata."] });
+
+  b.push({ t: "h1", text: "1. Superioridades numéricas", br: true });
+  b.push({ t: "p", text: "Cada círculo é uma superioridade (exclusão do adversário); cheio quando a equipa marcou nos 20 s da exclusão." });
+  b.push({ t: "chart", spec: { type: "picto", rows: ts.map(t => ({ label: t.team, k: t.supConv, n: t.nSup })), note: `Total: ${TA.supConv + TB.supConv}/${TA.nSup + TB.nSup} · ${pct(TA.supConv + TB.supConv, TA.nSup + TB.nSup)}` }, caption: "Superioridades concretizadas." });
+  b.push({ t: "table", head: ["Equipa", "Sup.", "Golos", "% ataque", "Inf.", "Sofridos", "% defesa", "Saldo"], widths: [16, 10, 10, 13, 10, 12, 15, 14], rows: supTableRows(ts), caption: "% defesa = inferioridades sem golo sofrido. Saldo = golos em superioridade − golos sofridos em inferioridade." });
+  if (TA.nSup + TB.nSup >= 4) b.push({ t: "chart", spec: { type: "vbars", unit: "%", max: 100, ...stateBars(ts) }, caption: "Conversão das superioridades consoante o marcador e o período (as duas equipas)." });
+  const secs = [...TA.secs, ...TB.secs]; if (secs.length >= 2) b.push({ t: "chart", spec: { type: "vbars", ...secsBins(secs) }, caption: `Segundos entre a exclusão e o golo (${secs.length} golos em superioridade).`, w: 0.7 });
+  if (an.timeouts.length) b.push({ t: "table", head: ["Equipa", "Momento", "Marcador", "Contexto", "Golos 60 s (a favor/contra)"], widths: [14, 14, 14, 30, 28], rows: an.timeouts.map(r => [r.team, `${r.p}P ${r.t}`, r.score, r.sup ? (r.conv ? "6x5 – golo" : "6x5 – sem golo") : "Outro", `${r.gf} / ${r.ga}`]), hl: an.timeouts.map((r, i) => r.conv ? i : -1).filter(i => i >= 0), caption: "Timeouts. A destaque: timeout pedido na exclusão adversária que terminou em golo." });
+
+  b.push({ t: "h1", text: "2. Penáltis e disciplina", br: true });
+  b.push({ t: "table", head: ["Equipa", "Ganhos", "Convertidos", "Falhados", "% conversão", "Cometidos", "Exclusões", "Faltas pessoais"], widths: [13, 11, 13, 11, 14, 12, 12, 14], rows: ts.map(t => [t.team, t.penGanhos, t.pen, t.penFalh, pct(t.pen, t.penGanhos), t.penCom, t.excl, t.excl + t.penCom]), hl: ts.map((t, i) => t.penFalh >= 2 ? i : -1).filter(i => i >= 0) });
+  b.push({ t: "chart", spec: { type: "heat", cols: ["1.º P", "2.º P", "3.º P", "4.º P"], rows: ts.map(t => ({ label: t.team, vals: t.exclP })), color: PAL_LIGHT.heat2 }, caption: "Exclusões por período.", w: 0.7 });
+  const fora = an.players.filter(p => p.faltas.length >= 3);
+  if (fora.length) b.push({ t: "table", head: ["Jogador", "Equipa", "Faltas registadas (3.ª = fora do jogo)"], widths: [28, 12, 60], rows: fora.map(p => [p.name, p.team, p.faltas.join(" · ")]), caption: "Jogadores que atingiram 3 faltas pessoais." });
+  const disc = ts.map(t => diagnose(t)).flatMap(d => d.m.filter(x => /exclus|penálti|faltas/i.test(x)));
+  if (disc.length) b.push({ t: "box", kind: "alerta", items: disc.slice(0, 4).map((x, i) => x) });
+
+  b.push({ t: "h1", text: "3. Golos e marcadores", br: true });
+  b.push({ t: "chart", spec: { type: "stack100", legend: ["Jogo jogado", "Superioridade", "Penálti"], rows: ts.map(t => ({ label: t.team, parts: [t.acao, t.sup, t.pen], total: t.golos })) }, caption: "Origem dos golos de cada equipa." });
+  const sc = an.players.filter(p => p.golos > 0).sort((a, c) => c.golos - a.golos || a.name.localeCompare(c.name));
+  b.push({ t: "chart", spec: { type: "hbar", textW: 130, rows: sc.slice(0, 14).map(p => ({ label: `${p.name.replace(" (C)", "")} · ${p.team}`, v: p.golos, color: p.team === A ? PAL_LIGHT.c1 : PAL_LIGHT.c2, text: `${p.golos}${p.sup || p.pen ? ` (${[p.sup ? p.sup + " sup." : "", p.pen ? p.pen + " pen." : ""].filter(Boolean).join(" · ")})` : ""}` })) }, caption: `Marcadores (azul: ${A}; laranja: ${B}).` });
+  b.push({ t: "table", head: ["Equipa", "Marcadores", "Melhor marcador", "Golos", "% do melhor", "% dos 3 melhores"], widths: [13, 15, 30, 10, 15, 17], rows: ts.map(t => [t.team, t.marcadores, t.top1Nome.replace(" (C)", ""), t.top1, pct(t.top1, t.golos), pct(t.top3, t.golos)]) });
+
+  b.push({ t: "h1", text: "4. Dinâmica do jogo", br: true });
+  b.push({ t: "chart", spec: { type: "diff", flow: an.flow, L: an.L, local: A, visit: B }, caption: `Diferença no marcador ao longo do jogo (azul: ${A} na frente; laranja: ${B} na frente).` });
+  b.push({ t: "chart", spec: { type: "heat", cols: ["1.º P", "2.º P", "3.º P", "4.º P"], rows: ts.map(t => ({ label: t.team, vals: t.gp })), color: PAL_LIGHT.heat1 }, caption: "Golos por período.", w: 0.7 });
+  b.push({ t: "box", kind: "chave", items: dynamicsText(an) });
+  b.push({ t: "table", head: ["Equipa", "Maior período sem marcar", "Resposta a golo sofrido", "Golos nos 2 últ. min", "Últimos 4 min (M–S)", "Sprints / golo"], widths: [12, 30, 18, 14, 14, 12], rows: ts.map(t => [t.team, `${mmss(t.seca)} (${t.secaTxt})`, `${pct(t.respostas, t.sofComSeg)} (${t.respostas}/${t.sofComSeg})`, t.ult2, `${t.ult4[0]}–${t.ult4[1]}`, `${t.sprints} / ${t.sprintGolo}`]), caption: "Tempo de jogo útil. Sprint com golo = golo nos 35 s seguintes ao sprint ganho." });
+
+  b.push({ t: "h1", text: "5. Fichas de equipa", br: true });
+  ts.forEach(t => b.push(fichaBlock(t, t.team, `${t.res === "V" ? "Vitória" : t.res === "D" ? "Derrota" : "Empate"} ${t.gm}–${t.gs} vs ${t.opp}`)));
+
+  b.push({ t: "h1", text: "Anexo – Registo das superioridades", br: true });
+  b.push({ t: "table", head: ["Período", "Tempo", "Marcador", "Em superioridade", "Excluído", "Situação", "Resultado"], widths: [9, 9, 11, 15, 24, 9, 23], rows: an.situations.map(s => [s.p + "P", s.t, s.score, s.adv, s.excluded.map((n, i) => `${n} ${s.excludedNames[i]}`).join(", "), s.nExcl > 1 ? "6x4" : "6x5", s.conv ? `Golo n.º ${s.scorer} ${s.scorerName} (${s.secs} s)` : s.golInf ? "Golo sofrido em inferioridade" : "Sem golo"]), hl: an.situations.map((s, i) => s.conv ? i : -1).filter(i => i >= 0) });
+  b.push({ t: "h2", text: "Notas metodológicas" }); b.push({ t: "notes", items: NOTAS.concat(an.validation.checks ? [`Marcador conferido com a ata em ${an.validation.checks - an.validation.mismatches} de ${an.validation.checks} registos.`] : []) });
+  return { title: `Relatório de jogo – ${A} ${an.score[0]}–${an.score[1]} ${B}`, file: `Relatorio_${A}_${B}_${(M.data || "").replace(/\//g, "-")}`, blocks: b };
+}
+
+function globalReport(ag, filtroTxt) {
+  const ts = ag.teams.slice().sort((a, c) => (a.genero || "").localeCompare(c.genero || "") || a.label.localeCompare(c.label));
+  const S = sumTeams(ts), b = [], nG = ag.games.length;
+  const ins = insightsFor(ts, { games: ag.games, timeouts: ag.timeouts, secs: ag.secs, blocks: ag.blocks, golos: ag.golos });
+  const toS = ag.timeouts.filter(x => x.sup), toC = toS.filter(x => x.conv).length;
+  const st = stateBars(ts).groups[0].bars;
+  b.push({ t: "cover", eyebrow: "FPN · DIREÇÃO TÉCNICA NACIONAL · ANÁLISE GLOBAL", title: "Análise global das atas", sub: `${nG} jogo${nG === 1 ? "" : "s"} · ${ts.length} equipas · ${filtroTxt}` });
+  b.push({ t: "kpis", items: [
+    [pct(S.supConv, S.nSup), "Superioridades concretizadas", `${S.supConv} em ${S.nSup}`],
+    [pct(S.pen, S.penGanhos), "Penáltis convertidos", `${S.pen} em ${S.penGanhos}`],
+    [pct(toC, toS.length), "Superioridade após timeout", `${toC} em ${toS.length} · sem timeout ${pct(S.supConv - toC, S.nSup - toS.length)}`, "good"],
+    [st[0].text.split(" ")[0], "Superioridade a perder", `empatado: ${st[1].text.split(" ")[0]} · a ganhar: ${st[2].text.split(" ")[0]}`, "warn"],
+    [ag.secs.length ? dec1(ag.secs.reduce((a, s) => a + s, 0) / ag.secs.length) + " s" : "–", "Tempo médio até ao golo", "em superioridade"],
+    [S.nSup ? (S.supConv / S.nSup).toFixed(2).replace(".", ",") : "–", "Golos sofridos por exclusão", `${S.penGanhos ? (S.pen / S.penGanhos).toFixed(2).replace(".", ",") : "–"} por falta de penálti`],
+    [`${S.sprintGolo}/${S.sprints}`, "Sprints com golo", "na posse inicial (≤35 s)"],
+    [pct(ag.blocks[3], ag.golos), "Golos nos 2 últimos minutos", `de cada período (${ag.blocks[3]} de ${ag.golos})`]] });
+  b.push({ t: "box", kind: "chave", items: ins.ch });
+  if (ins.al.length) b.push({ t: "box", kind: "alerta", items: ins.al });
+  b.push({ t: "box", kind: "acao", items: ins.ac.length ? ins.ac : ["Sem ações prioritárias destacadas."] });
+
+  b.push({ t: "h1", text: "1. Jogos e equipas", br: true });
+  b.push({ t: "table", head: ["Data", "Competição", "Jogo", "Resultado", "Parciais", "Sup. (local / visit.)"], widths: [11, 27, 15, 11, 18, 18], rows: ag.games.map(an => [an.meta.data, an.meta.competicao, `${an.teams[0]}–${an.teams[1]}`, `${an.score[0]}–${an.score[1]}`, an.parciais.map(p => p.join("-")).join(" / "), `${an.T[an.teams[0]].supConv}/${an.T[an.teams[0]].nSup} · ${an.T[an.teams[1]].supConv}/${an.T[an.teams[1]].nSup}`]) });
+  b.push({ t: "table", head: ["Equipa", "Género", "J", "V", "E", "D", "GM", "GS", "Dif.", "GM/J"], widths: [16, 14, 7, 7, 7, 7, 9, 9, 10, 14], rows: ts.slice().sort((a, c) => (c.V * 3 + c.E) - (a.V * 3 + a.E) || (c.gm - c.gs) - (a.gm - a.gs)).map(t => [t.label, t.genero || "–", t.jogos, t.V, t.E, t.D, t.gm, t.gs, sgn(t.gm - t.gs), dec1(t.gm / t.jogos)]) });
+
+  b.push({ t: "h1", text: "2. Superioridades numéricas", br: true });
+  const supRows = ts.slice().sort((a, c) => pctN(c.supConv, c.nSup) - pctN(a.supConv, a.nSup));
+  const mxN = Math.max(0, ...ts.map(t => t.nSup));
+  if (mxN <= 18) b.push({ t: "chart", spec: { type: "picto", rows: supRows.map(t => ({ label: t.label, k: t.supConv, n: t.nSup })), note: `Média: ${S.supConv}/${S.nSup} · ${pct(S.supConv, S.nSup)}` }, caption: "Superioridades concretizadas por equipa, ordenadas por eficácia." });
+  else b.push({ t: "chart", spec: { type: "hbar", max: 100, rows: supRows.map(t => ({ label: t.label, v: pctN(t.supConv, t.nSup), text: `${pct(t.supConv, t.nSup)} (${t.supConv}/${t.nSup})` })), avg: { v: pctN(S.supConv, S.nSup), label: `média ${pct(S.supConv, S.nSup)}` } }, caption: "% de superioridades concretizadas por equipa." });
+  b.push({ t: "table", head: ["Equipa", "Sup.", "Golos", "% ataque", "Inf.", "Sofridos", "% defesa", "Saldo"], widths: [16, 10, 10, 13, 10, 12, 15, 14], rows: supTableRows(ts).concat([["Total", S.nSup, S.supConv, pct(S.supConv, S.nSup), S.inf, S.infSof, pct(S.inf - S.infSof, S.inf), "0"]]), boldLast: true });
+  const sal = ts.map(t => ({ label: t.label, v: t.supConv - t.infSof })).sort((a, c) => c.v - a.v);
+  b.push({ t: "chart", spec: { type: "hbar", diverging: true, span: 3, textW: 50, rows: sal.map(r => ({ ...r, text: sgn(r.v), color: r.v > 0 ? PAL_LIGHT.good : r.v < 0 ? PAL_LIGHT.bad : PAL_LIGHT.empty })) }, caption: "Saldo das superioridades: verde = ganhou a «guerra» das exclusões.", w: 0.8 });
+  b.push({ t: "chart", spec: { type: "vbars", unit: "%", max: 100, ...stateBars(ts), avg: { v: pctN(S.supConv, S.nSup), label: `média ${pct(S.supConv, S.nSup)}` } }, caption: "Conversão consoante o marcador e o período." });
+  if (ag.secs.length >= 3) b.push({ t: "chart", spec: { type: "vbars", ...secsBins(ag.secs) }, caption: `Segundos entre a exclusão e o golo (${ag.secs.length} golos em superioridade).`, w: 0.7 });
+  b.push({ t: "table", head: ["Equipa", "Timeouts", "Na exclusão adversária", "Golo nessa superioridade", "% conversão"], widths: [18, 16, 24, 24, 18], rows: ts.map(t => [t.label, t.timeouts, t.toSup, t.toSupConv, pct(t.toSupConv, t.toSup)]), caption: "Utilização dos timeouts." });
+
+  b.push({ t: "h1", text: "3. Penáltis e disciplina", br: true });
+  b.push({ t: "table", head: ["Equipa", "Ganhos", "Convertidos", "Falhados", "% conversão", "Cometidos", "Exclusões", "Excl./jogo"], widths: [14, 11, 13, 11, 14, 12, 12, 13], rows: ts.map(t => [t.label, t.penGanhos, t.pen, t.penFalh, pct(t.pen, t.penGanhos), t.penCom, t.excl, dec1(t.excl / t.jogos)]), hl: ts.map((t, i) => t.penFalh >= 2 ? i : -1).filter(i => i >= 0) });
+  b.push({ t: "chart", spec: { type: "heat", cols: ["1.º P", "2.º P", "3.º P", "4.º P"], rows: ts.map(t => ({ label: t.label, vals: t.exclP })), color: PAL_LIGHT.heat2 }, caption: "Exclusões por período (soma dos jogos).", w: 0.75 });
+  const pf = ag.players.filter(p => p.fora > 0).sort((a, c) => c.fora - a.fora);
+  if (pf.length) b.push({ t: "table", head: ["Jogador", "Equipa", "Jogos", "Vezes com 3 faltas", "Exclusões", "Faltas de penálti"], widths: [30, 14, 10, 18, 14, 14], rows: pf.map(p => [p.name, p.teamLabel, p.jogos, p.fora, p.excl, p.penCom]), caption: "Jogadores que atingiram 3 faltas pessoais." });
+
+  b.push({ t: "h1", text: "4. Golos e marcadores", br: true });
+  b.push({ t: "chart", spec: { type: "stack100", legend: ["Jogo jogado", "Superioridade", "Penálti"], rows: ts.map(t => ({ label: t.label, parts: [t.acao, t.sup, t.pen], total: t.golos })) }, caption: "Origem dos golos de cada equipa." });
+  ["Masculino", "Feminino", ""].forEach(gn => {
+    const ps = ag.players.filter(p => (p.genero || "") === gn && p.golos > 0).sort((a, c) => c.golos - a.golos || a.name.localeCompare(c.name));
+    if (!ps.length) return;
+    b.push({ t: "h2", text: `Melhores marcadores${gn ? " – " + gn.toLowerCase() + "s" : ""}` });
+    b.push({ t: "chart", spec: { type: "hbar", textW: 130, rows: ps.slice(0, 12).map(p => ({ label: `${p.name.replace(" (C)", "")} · ${p.teamLabel}`, v: p.golos, text: `${p.golos}${p.sup || p.pen ? ` (${[p.sup ? p.sup + " sup." : "", p.pen ? p.pen + " pen." : ""].filter(Boolean).join(" · ")})` : ""}` })) } });
+    b.push({ t: "table", head: ["#", "Jogador", "Equipa", "Jogos", "Golos", "Média", "Jogo jog.", "Sup.", "Pen."], widths: [6, 30, 12, 9, 9, 9, 10, 8, 7], rows: ps.slice(0, 25).map((p, i) => [i + 1, p.name, p.teamLabel, p.jogos, p.golos, dec1(p.golos / p.jogos), p.acao, p.sup, p.pen]) });
+  });
+  b.push({ t: "table", head: ["Equipa", "Marcadores", "Melhor marcador", "Golos", "% do melhor", "% dos 3 melhores"], widths: [14, 14, 30, 10, 15, 17], rows: ts.map(t => [t.label, t.marcadores, t.top1Nome.replace(" (C)", ""), t.top1, pct(t.top1, t.golos), pct(t.top3, t.golos)]), caption: "Dependência dos melhores marcadores." });
+
+  b.push({ t: "h1", text: "5. Dinâmica dos jogos", br: true });
+  b.push({ t: "chart", spec: { type: "heat", cols: ["1.º P", "2.º P", "3.º P", "4.º P"], rows: ts.map(t => ({ label: t.label, vals: t.gp })), color: PAL_LIGHT.heat1 }, caption: "Golos por período (soma dos jogos).", w: 0.75 });
+  b.push({ t: "chart", spec: { type: "vbars", groups: [{ title: "", bars: ag.blocks.map((v, i) => ({ label: ["0–2 min", "2–4 min", "4–6 min", "6–8 min"][i], v, text: `${v} (${pct(v, ag.golos)})` })) }] }, caption: "Golos por bloco de 2 minutos dentro do período (todas as equipas).", w: 0.7 });
+  const resp = ts.filter(t => t.sofComSeg).sort((a, c) => pctN(c.respostas, c.sofComSeg) - pctN(a.respostas, a.sofComSeg));
+  b.push({ t: "chart", spec: { type: "hbar", max: 100, rows: resp.map(t => ({ label: t.label, v: pctN(t.respostas, t.sofComSeg), text: `${pct(t.respostas, t.sofComSeg)} (${t.respostas}/${t.sofComSeg})` })), avg: { v: 50, label: "50% = equilíbrio" } }, caption: "Resposta a golo sofrido: % de vezes em que a equipa marcou o golo seguinte." });
+  b.push({ t: "table", head: ["Equipa", "Maior período sem marcar", "Quando", "Golos nos 2 últ. min", "Últimos 4 min (M–S)", "Sprints / golo", "Períodos ganhos"], widths: [12, 14, 28, 12, 12, 11, 11], rows: ts.map(t => [t.label, mmss(t.seca), t.secaTxt, t.ult2, `${t.ult4[0]}–${t.ult4[1]}`, `${t.sprints} / ${t.sprintGolo}`, `${t.perWon} de ${4 * t.jogos}`]) });
+
+  b.push({ t: "h1", text: "6. Fichas de equipa", br: true });
+  ts.forEach(t => b.push(fichaBlock(t, t.label, `${t.jogos} jogo${t.jogos === 1 ? "" : "s"} · ${t.V}V ${t.E}E ${t.D}D · ${t.gm}–${t.gs}${t.genero ? " · " + t.genero : ""}`)));
+  b.push({ t: "h2", text: "Notas metodológicas" }); b.push({ t: "notes", items: NOTAS });
+  return { title: "Análise global das atas", file: `Analise_global_atas_${new Date().toISOString().slice(0, 10)}`, blocks: b };
+}
+
+/* ---- exporters.js ---- */
+/* ===== Exportação: Excel, Word e PDF ===== */
+const CODES = { 1: "Golo", 2: "Golo em superioridade", 3: "Golo de penálti", 4: "Exclusão", 5: "Falta de penálti", 6: "Falta pessoal (s/ letra)", 8: "Timeout", 9: "Cartão amarelo (treinador)", 12: "Registo de mesa", 13: "Penálti falhado", 15: "Sprint ganho" };
+const frac = (a, b) => b ? a / b : null;
+function teamRow(t, extra = {}) {
+  return { ...extra, "Equipa": t.label || t.team, "Género": t.genero || "", "Jogos": t.jogos, "V": t.V != null ? t.V : (t.res === "V" ? 1 : 0), "E": t.E != null ? t.E : (t.res === "E" ? 1 : 0), "D": t.D != null ? t.D : (t.res === "D" ? 1 : 0), "Golos marcados": t.gm, "Golos sofridos": t.gs,
+    "Golos jogo jogado": t.acao, "Golos superioridade": t.sup, "Golos penálti": t.pen, "Superioridades": t.nSup, "Sup. concretizadas": t.supConv, "% sup.": frac(t.supConv, t.nSup),
+    "Inferioridades": t.inf, "Golos sofridos em inf.": t.infSof, "% inf. defendidas": frac(t.inf - t.infSof, t.inf), "Saldo sup.": t.supConv - t.infSof,
+    "Penáltis ganhos": t.penGanhos, "Penáltis convertidos": t.pen, "Penáltis falhados": t.penFalh, "% penáltis": frac(t.pen, t.penGanhos), "Faltas de penálti": t.penCom, "Exclusões": t.excl,
+    "Excl. 1P": t.exclP[0], "Excl. 2P": t.exclP[1], "Excl. 3P": t.exclP[2], "Excl. 4P": t.exclP[3], "Golos 1P": t.gp[0], "Golos 2P": t.gp[1], "Golos 3P": t.gp[2], "Golos 4P": t.gp[3],
+    "Sup. a perder": t.supState.perder[0], "Golos a perder": t.supState.perder[1], "Sup. empatado": t.supState.empate[0], "Golos empatado": t.supState.empate[1], "Sup. a ganhar": t.supState.ganhar[0], "Golos a ganhar": t.supState.ganhar[1],
+    "Timeouts": t.timeouts, "Timeouts na exclusão": t.toSup, "Golo após timeout na exclusão": t.toSupConv, "Sprints ganhos": t.sprints, "Sprints com golo": t.sprintGolo,
+    "Maior período sem marcar (s)": t.seca, "Resposta a golo sofrido": frac(t.respostas, t.sofComSeg), "Golos últimos 2 min": t.ult2, "Últimos 4 min marcados": t.ult4[0], "Últimos 4 min sofridos": t.ult4[1],
+    "Marcadores": t.marcadores, "Melhor marcador": t.top1Nome, "Golos do melhor": t.top1, "% 3 melhores": frac(t.top3, t.golos), "Jogadores com 3 faltas": t.fora };
+}
+function sheet(rows, pctCols = []) {
+  const ws = XLSX.utils.json_to_sheet(rows.length ? rows : [{ "": "Sem dados" }]);
+  const keys = rows.length ? Object.keys(rows[0]) : [""];
+  ws["!cols"] = keys.map(k => ({ wch: Math.min(40, Math.max(8, k.length + 2, ...rows.slice(0, 200).map(r => String(r[k] == null ? "" : r[k]).length + 1))) }));
+  const rg = XLSX.utils.decode_range(ws["!ref"]);
+  keys.forEach((k, ci) => { if (pctCols.includes(k) || /^%|Resposta/.test(k)) for (let r = 1; r <= rg.e.r; r++) { const c = ws[XLSX.utils.encode_cell({ r, c: ci })]; if (c && typeof c.v === "number") c.z = "0.0%"; } });
+  ws["!autofilter"] = { ref: ws["!ref"] };
+  return ws;
+}
+function gameRows(an) {
+  const g = `${an.teams[0]}–${an.teams[1]}`, base = { "Data": an.meta.data, "Jogo": g };
+  return {
+    sit: an.situations.map(s => ({ ...base, "Período": s.p, "Tempo": s.t, "Marcador": s.score, "Em superioridade": s.adv, "Em inferioridade": s.inf, "Excluídos": s.excluded.map((n, i) => `${n} ${s.excludedNames[i]}`).join(", "), "Situação": s.nExcl > 1 ? "6x4" : "6x5", "Estado do marcador": { perder: "A perder", empate: "Empatado", ganhar: "A ganhar" }[s.state], "Golo": s.conv ? "Sim" : "Não", "Marcador do golo": s.conv ? `${s.scorer} ${s.scorerName}` : "", "Segundos até ao golo": s.conv ? s.secs : null, "Golo sofrido em inferioridade": s.golInf ? "Sim" : "Não" })),
+    to: an.timeouts.map(r => ({ ...base, "Equipa": r.team, "Período": r.p, "Tempo": r.t, "Marcador": r.score, "Na exclusão adversária": r.sup ? "Sim" : "Não", "Golo nessa superioridade": r.sup ? (r.conv ? "Sim" : "Não") : "", "Golos a favor (60 s)": r.gf, "Golos contra (60 s)": r.ga })),
+    pl: an.players.map(p => ({ ...base, "Equipa": p.team, "N.º": p.n, "Jogador": p.name, "Golos": p.golos, "Jogo jogado": p.acao, "Superioridade": p.sup, "Penálti": p.pen, "Exclusões": p.excl, "Faltas de penálti": p.penCom, "Penáltis falhados": p.penFalh, "Faltas pessoais": p.faltas.length, "Registo de faltas": p.faltas.join(" · ") })),
+    ev: an.events.map(e => ({ ...base, "Período": e.p, "Tempo": e.t, "Equipa": e.team || "", "N.º": e.n, "Jogador": e.team && e.n != null ? ((an.rosters || {})[e.team] || {})[e.n] || "" : "", "Código": e.c, "Ação": CODES[e.c] || `Código ${e.c}` })),
+  };
+}
+function insightRows(rep) {
+  const out = [];
+  rep.blocks.forEach(b => {
+    if (b.t === "box") b.items.forEach(it => out.push({ "Âmbito": "Geral", "Tipo": { chave: "Ponto-chave", acao: "Ação recomendada", alerta: "Atenção" }[b.kind], "Texto": Array.isArray(it) ? it.join("") : it }));
+    if (b.t === "ficha") [["f", "Ponto forte"], ["m", "A melhorar"], ["a", "Ação sugerida"]].forEach(([k, lab]) => b[k].forEach(x => out.push({ "Âmbito": b.title, "Tipo": lab, "Texto": x })));
+  });
+  return out;
+}
+function buildXlsx(kind, payload) {
+  const wb = XLSX.utils.book_new();
+  if (kind === "jogo") {
+    const an = payload.an, rep = payload.rep, R = gameRows(an);
+    const cmp = rep.blocks.find(b => b.t === "table" && b.compare);
+    const info = [["Relatório de jogo", `${an.teams[0]} ${an.score[0]}–${an.score[1]} ${an.teams[1]}`], ["Competição", an.meta.competicao], ["Data", an.meta.data], ["Piscina", an.meta.piscina || ""], ["Ata n.º", an.meta.ata], ["Género", an.meta.genero], [], cmp.head, ...cmp.rows];
+    const ws = XLSX.utils.aoa_to_sheet(info); ws["!cols"] = [{ wch: 34 }, { wch: 26 }, { wch: 26 }]; XLSX.utils.book_append_sheet(wb, ws, "Resumo");
+    XLSX.utils.book_append_sheet(wb, sheet(an.teams.map(tm => teamRow(an.T[tm]))), "Equipas");
+    XLSX.utils.book_append_sheet(wb, sheet(R.sit), "Superioridades");
+    XLSX.utils.book_append_sheet(wb, sheet(R.to), "Timeouts");
+    XLSX.utils.book_append_sheet(wb, sheet(R.pl.sort((a, b) => b.Golos - a.Golos)), "Jogadores");
+    XLSX.utils.book_append_sheet(wb, sheet(R.ev), "Eventos");
+    XLSX.utils.book_append_sheet(wb, sheet(insightRows(rep)), "Pontos-chave");
+  } else {
+    const ag = payload.ag, rep = payload.rep;
+    XLSX.utils.book_append_sheet(wb, sheet(ag.games.map(an => ({ "Data": an.meta.data, "Competição": an.meta.competicao, "Género": an.meta.genero, "Ata n.º": an.meta.ata, "Local": an.teams[0], "Visitante": an.teams[1], "Golos local": an.score[0], "Golos visitante": an.score[1], "Parciais": an.parciais.map(p => p.join("-")).join(" / "), "Sup. local": `${an.T[an.teams[0]].supConv}/${an.T[an.teams[0]].nSup}`, "Sup. visitante": `${an.T[an.teams[1]].supConv}/${an.T[an.teams[1]].nSup}` }))), "Jogos");
+    XLSX.utils.book_append_sheet(wb, sheet(ag.teams.map(t => teamRow(t))), "Equipas");
+    XLSX.utils.book_append_sheet(wb, sheet(ag.players.slice().sort((a, b) => b.golos - a.golos).map(p => ({ "Jogador": p.name, "Equipa": p.teamLabel, "Género": p.genero, "Jogos": p.jogos, "Golos": p.golos, "Média": p.jogos ? Math.round(p.golos / p.jogos * 100) / 100 : 0, "Jogo jogado": p.acao, "Superioridade": p.sup, "Penálti": p.pen, "Exclusões": p.excl, "Faltas de penálti": p.penCom, "Penáltis falhados": p.penFalh, "Jogos com 3 faltas": p.fora }))), "Jogadores");
+    const all = ag.games.map(gameRows);
+    XLSX.utils.book_append_sheet(wb, sheet(all.flatMap(r => r.sit)), "Superioridades");
+    XLSX.utils.book_append_sheet(wb, sheet(all.flatMap(r => r.to)), "Timeouts");
+    XLSX.utils.book_append_sheet(wb, sheet(all.flatMap(r => r.ev)), "Eventos");
+    XLSX.utils.book_append_sheet(wb, sheet(insightRows(rep)), "Pontos-chave");
+  }
+  return new Blob([XLSX.write(wb, { bookType: "xlsx", type: "array" })], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+}
+
+/* ---------- Word ---------- */
+function b64ToBytes(url) { const s = atob(url.split(",")[1]); const a = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) a[i] = s.charCodeAt(i); return a; }
+async function buildDocx(rep) {
+  const D = docx, W = 9638, NAVY = "16324F", BLUE = "1F6FD1", GREY = "56606B", LINE = "D7DCE1", ZEBRA = "F2F5F8";
+  const NONE = { style: D.BorderStyle.NONE, size: 0, color: "FFFFFF" }, line = { style: D.BorderStyle.SINGLE, size: 4, color: LINE };
+  const run = (t, o = {}) => new D.TextRun({ text: String(t), ...o });
+  const para = (children, o = {}) => new D.Paragraph({ spacing: { after: 100, line: 276 }, ...o, children });
+  const C = [];
+  const tbl = (head, rows, widths, opt = {}) => {
+    const sum = widths.reduce((a, b) => a + b, 0); let w = widths.map(x => Math.round(x * W / sum)); w[w.length - 1] += W - w.reduce((a, b) => a + b, 0);
+    const cell = (t, i, hdr, fill, bold) => new D.TableCell({ width: { size: w[i], type: D.WidthType.DXA }, borders: { top: line, bottom: line, left: NONE, right: NONE }, verticalAlign: D.VerticalAlign.CENTER,
+      shading: hdr ? { type: D.ShadingType.CLEAR, fill: NAVY, color: "auto" } : fill ? { type: D.ShadingType.CLEAR, fill, color: "auto" } : undefined, margins: { top: 40, bottom: 40, left: 70, right: 70 },
+      children: [new D.Paragraph({ alignment: i === 0 || (opt.left || []).includes(i) ? D.AlignmentType.LEFT : D.AlignmentType.CENTER, children: [run(t == null ? "" : t, { size: 16, bold: hdr || bold, color: hdr ? "FFFFFF" : "111111" })] })] });
+    return new D.Table({ width: { size: W, type: D.WidthType.DXA }, columnWidths: w, rows: [new D.TableRow({ tableHeader: true, children: head.map((h, i) => cell(h, i, true)) }),
+      ...rows.map((r, k) => new D.TableRow({ cantSplit: true, children: r.map((c, i) => cell(c, i, false, (opt.hl || []).includes(k) ? "FFF0DE" : (k % 2 ? ZEBRA : null), (opt.boldLast && k === rows.length - 1) || i === 0)) }))] });
+  };
+  const LEFTH = /^(Jogador|Jogadora|Jogo|Competição|Melhor marcador|Quando|Excluído|Faltas registadas|Resultado|Entre|Indicador)/;
+  const KIND = { chave: ["◆  PONTO-CHAVE", "1F6FD1", "EAF2FC"], acao: ["➜  AÇÃO RECOMENDADA", "0C8A4E", "E7F5ED"], alerta: ["▲  ATENÇÃO", "C2410C", "FDF0E7"] };
+  const box = b => { const [lab, col, fill] = KIND[b.kind]; const ps = [para([run(lab, { bold: true, size: 17, color: col })], { spacing: { after: 60 } })];
+    b.items.forEach(it => ps.push(para(Array.isArray(it) ? [run(it[0], { bold: true, size: 19 }), run(it[1] || "", { size: 19 })] : [run(it, { size: 19 })], { spacing: { after: 50, line: 260 } })));
+    return new D.Table({ width: { size: W, type: D.WidthType.DXA }, columnWidths: [W], rows: [new D.TableRow({ cantSplit: true, children: [new D.TableCell({ width: { size: W, type: D.WidthType.DXA }, shading: { type: D.ShadingType.CLEAR, fill, color: "auto" }, borders: { left: { style: D.BorderStyle.SINGLE, size: 36, color: col }, top: NONE, bottom: NONE, right: NONE }, margins: { top: 100, bottom: 100, left: 200, right: 160 }, children: ps })] })] }); };
+  const tiles = (items, cols = 4) => { const cw = Math.floor(W / cols), ws = Array(cols).fill(cw); ws[cols - 1] += W - cw * cols; const rows = [];
+    for (let i = 0; i < items.length; i += cols) rows.push(new D.TableRow({ cantSplit: true, children: ws.map((w, j) => { const it = items[i + j]; const tone = it && it[3] === "good" ? ["E7F5ED", "0C8A4E"] : it && it[3] === "warn" ? ["FDF0E7", "C2410C"] : ["F0F3F7", NAVY];
+      return new D.TableCell({ width: { size: w, type: D.WidthType.DXA }, borders: { top: NONE, bottom: NONE, left: { style: D.BorderStyle.SINGLE, size: 18, color: "FFFFFF" }, right: { style: D.BorderStyle.SINGLE, size: 18, color: "FFFFFF" } }, shading: it ? { type: D.ShadingType.CLEAR, fill: tone[0], color: "auto" } : undefined, margins: { top: 90, bottom: 90, left: 110, right: 90 },
+        children: it ? [para([run(it[0], { size: 32, bold: true, color: tone[1] })], { spacing: { after: 0 } }), para([run(it[1], { size: 15, bold: true, color: "333333" })], { spacing: { after: 10 } }), para([run(it[2] || "", { size: 14, color: GREY })], { spacing: { after: 0 } })] : [new D.Paragraph("")] }); }) }));
+    return new D.Table({ width: { size: W, type: D.WidthType.DXA }, columnWidths: ws, rows }); };
+  const gap = (a = 120) => new D.Paragraph({ spacing: { after: a }, children: [] });
+  for (const b of rep.blocks) {
+    if (b.t === "cover") { C.push(para([run(b.eyebrow, { size: 16, bold: true, color: GREY })], { spacing: { after: 40 } }), para([run(b.title, { size: 40, bold: true, color: NAVY })], { spacing: { after: 40 } }), para([run(b.sub, { size: 20, color: GREY })], { spacing: { after: 200 }, border: { bottom: { style: D.BorderStyle.SINGLE, size: 12, color: BLUE, space: 6 } } })); }
+    else if (b.t === "h1") C.push(new D.Paragraph({ heading: D.HeadingLevel.HEADING_1, pageBreakBefore: !!b.br, children: [run(b.text)] }));
+    else if (b.t === "h2") C.push(new D.Paragraph({ heading: D.HeadingLevel.HEADING_2, children: [run(b.text)] }));
+    else if (b.t === "p") C.push(para([run(b.text)]));
+    else if (b.t === "kpis") C.push(tiles(b.items), gap(160));
+    else if (b.t === "box") C.push(box(b), gap(100));
+    else if (b.t === "table") { C.push(tbl(b.head, b.rows, b.widths, { ...b, left: b.head.map((h, i) => /^(Jogador|Jogadora|Jogo|Competição|Melhor marcador|Quando|Excluído|Faltas registadas|Entre)/.test(h) ? i : -1) })); C.push(b.caption ? para([run(b.caption, { italics: true, size: 15, color: GREY })], { alignment: D.AlignmentType.CENTER, spacing: { before: 60, after: 160 } }) : gap()); }
+    else if (b.t === "chart") { const img = chartPNG(b.spec, 900); const wpx = Math.round(620 * (b.w || 1)); C.push(new D.Paragraph({ alignment: D.AlignmentType.CENTER, keepNext: true, spacing: { before: 60, after: 40 }, children: [new D.ImageRun({ data: b64ToBytes(img.url), transformation: { width: wpx, height: Math.round(wpx * img.h / img.w) } })] }));
+      C.push(b.caption ? para([run(b.caption, { italics: true, size: 15, color: GREY })], { alignment: D.AlignmentType.CENTER, spacing: { after: 160 } }) : gap()); }
+    else if (b.t === "notes") b.items.forEach(t => C.push(new D.Paragraph({ numbering: { reference: "b", level: 0 }, spacing: { after: 50 }, children: [run(t, { size: 17 })] })));
+    else if (b.t === "ficha") {
+      C.push(new D.Paragraph({ keepNext: true, spacing: { before: 200, after: 80 }, shading: { type: D.ShadingType.CLEAR, fill: NAVY, color: "auto" }, children: [run(`  ${b.title}  `, { bold: true, size: 26, color: "FFFFFF" }), run(`  ${b.sub}`, { size: 18, color: "FFFFFF" })] }));
+      C.push(tiles(b.tiles)); C.push(new D.Paragraph({ keepNext: true, spacing: { after: 60 }, children: [] }));
+      const w3 = Math.floor(W / 3); const col = (title, items, c) => new D.TableCell({ width: { size: w3, type: D.WidthType.DXA }, borders: { top: { style: D.BorderStyle.SINGLE, size: 18, color: c }, bottom: NONE, left: NONE, right: NONE }, margins: { top: 80, bottom: 60, left: 100, right: 100 },
+        children: [para([run(title, { bold: true, size: 16, color: c })], { spacing: { after: 60 } }), ...items.map(x => new D.Paragraph({ numbering: { reference: "s", level: 0 }, spacing: { after: 40, line: 250 }, children: [run(x, { size: 16 })] }))] });
+      C.push(new D.Table({ width: { size: W, type: D.WidthType.DXA }, columnWidths: [w3, w3, W - 2 * w3], rows: [new D.TableRow({ cantSplit: true, children: [col("PONTOS FORTES", b.f, "0C8A4E"), col("A MELHORAR", b.m.length ? b.m : ["Sem pontos críticos nos indicadores da ata."], "C2410C"), col("AÇÃO SUGERIDA", b.a, "1F6FD1")] })] }));
+      C.push(para([run("Outros dados: ", { bold: true, size: 16 }), run(b.extra, { size: 16 })], { spacing: { before: 80, after: 160 } }));
+    }
+  }
+  const doc = new D.Document({ creator: "FPN – Direção Técnica Nacional", title: rep.title,
+    styles: { default: { document: { run: { font: "Arial", size: 19 } } }, paragraphStyles: [
+      { id: "Heading1", name: "Heading 1", basedOn: "Normal", next: "Normal", quickFormat: true, run: { font: "Arial", size: 30, bold: true, color: NAVY }, paragraph: { spacing: { before: 240, after: 140 }, keepNext: true, outlineLevel: 0 } },
+      { id: "Heading2", name: "Heading 2", basedOn: "Normal", next: "Normal", quickFormat: true, run: { font: "Arial", size: 23, bold: true, color: BLUE }, paragraph: { spacing: { before: 200, after: 100 }, keepNext: true, outlineLevel: 1 } }] },
+    numbering: { config: [{ reference: "b", levels: [{ level: 0, format: D.LevelFormat.BULLET, text: "•", alignment: D.AlignmentType.LEFT, style: { paragraph: { indent: { left: 400, hanging: 260 } } } }] }, { reference: "s", levels: [{ level: 0, format: D.LevelFormat.BULLET, text: "–", alignment: D.AlignmentType.LEFT, style: { paragraph: { indent: { left: 220, hanging: 180 } } } }] }] },
+    sections: [{ properties: { page: { size: { width: 11906, height: 16838 }, margin: { top: 1000, bottom: 1000, left: 1134, right: 1134 } } },
+      footers: { default: new D.Footer({ children: [new D.Paragraph({ alignment: D.AlignmentType.RIGHT, children: [run(`FPN · Direção Técnica Nacional · ${rep.title}   |   `, { size: 14, color: GREY }), new D.TextRun({ children: [D.PageNumber.CURRENT], size: 14, color: GREY })] })] }) }, children: C }] });
+  return D.Packer.toBlob(doc);
+}
+
+/* ---------- PDF ---------- */
+function pdfText(s) { return String(s == null ? "" : s).replace(/[–—−]/g, "-").replace(/→/g, "->").replace(/≤/g, "<=").replace(/≥/g, ">=").replace(/[“”«»]/g, '"').replace(/[‘’]/g, "'").replace(/…/g, "...").replace(/[◆➜▲▼]/g, "").replace(/×/g, "x"); }
+function buildPdf(rep) {
+  const { jsPDF } = window.jspdf; const doc = new jsPDF({ unit: "mm", format: "a4" });
+  const PW = 210, PH = 297, M = 14, CW = PW - 2 * M; let y = M;
+  const NAVY = [22, 50, 79], BLUE = [31, 111, 209], GREY = [86, 96, 107];
+  const ensure = h => { if (y + h > PH - 16) { doc.addPage(); y = M; } };
+  const write = (txt, size, o = {}) => { doc.setFont("helvetica", o.bold ? "bold" : o.italic ? "italic" : "normal"); doc.setFontSize(size); doc.setTextColor(...(o.color || [17, 17, 17])); const lines = doc.splitTextToSize(pdfText(txt), o.w || CW); const lh = size * 0.42; ensure(lines.length * lh + 1); doc.text(lines, o.x != null ? o.x : (o.center ? PW / 2 : M), y + lh * 0.8, { align: o.center ? "center" : "left" }); y += lines.length * lh + (o.after != null ? o.after : 2); };
+  const KIND = { chave: ["PONTO-CHAVE", [31, 111, 209], [234, 242, 252]], acao: ["AÇÃO RECOMENDADA", [12, 138, 78], [231, 245, 237]], alerta: ["ATENÇÃO", [194, 65, 12], [253, 240, 231]] };
+  for (const b of rep.blocks) {
+    if (b.t === "cover") { write(b.eyebrow, 8, { bold: true, color: GREY, after: 1 }); write(b.title, 20, { bold: true, color: NAVY, after: 1 }); write(b.sub, 10, { color: GREY, after: 2 }); doc.setDrawColor(...BLUE); doc.setLineWidth(0.6); doc.line(M, y, PW - M, y); y += 5; }
+    else if (b.t === "h1") { if (b.br && y > M + 1) { doc.addPage(); y = M; } ensure(30); write(b.text, 15, { bold: true, color: NAVY, after: 3 }); }
+    else if (b.t === "h2") { ensure(25); y += 2; write(b.text, 11.5, { bold: true, color: BLUE, after: 2 }); }
+    else if (b.t === "p") write(b.text, 9.5, { after: 3 });
+    else if (b.t === "kpis") { const cols = 4, cw = (CW - 3 * 2) / cols, h = 21; for (let i = 0; i < b.items.length; i += cols) { ensure(h + 2); b.items.slice(i, i + cols).forEach((it, j) => { const X = M + j * (cw + 2); const tone = it[3] === "good" ? [[231, 245, 237], [12, 138, 78]] : it[3] === "warn" ? [[253, 240, 231], [194, 65, 12]] : [[240, 243, 247], NAVY]; doc.setFillColor(...tone[0]); doc.rect(X, y, cw, h, "F"); doc.setFont("helvetica", "bold"); doc.setFontSize(15); doc.setTextColor(...tone[1]); doc.text(pdfText(it[0]), X + 3, y + 7.5); doc.setFontSize(7.5); doc.setTextColor(40, 40, 40); doc.text(doc.splitTextToSize(pdfText(it[1]), cw - 5)[0], X + 3, y + 12.5); doc.setFont("helvetica", "normal"); doc.setFontSize(6.8); doc.setTextColor(...GREY); doc.text(doc.splitTextToSize(pdfText(it[2] || ""), cw - 5).slice(0, 2), X + 3, y + 16); }); y += h + 2; } y += 3; }
+    else if (b.t === "box") { const [lab, col, fill] = KIND[b.kind]; doc.setFontSize(9.2); const parts = b.items.map(it => doc.splitTextToSize(pdfText(Array.isArray(it) ? it.join("") : it), CW - 10)); const h = 9 + parts.reduce((a, l) => a + l.length * 3.9 + 1.6, 0); ensure(Math.min(h, 120));
+      const startY = y; doc.setFillColor(...fill); doc.rect(M, y, CW, h, "F"); doc.setFillColor(...col); doc.rect(M, y, 1.4, h, "F"); doc.setFont("helvetica", "bold"); doc.setFontSize(8); doc.setTextColor(...col); doc.text(lab, M + 5, y + 5.5); y += 8.5;
+      b.items.forEach((it, i) => { const bold = Array.isArray(it) ? pdfText(it[0]) : ""; const lines = parts[i]; doc.setFontSize(9.2); doc.setTextColor(17, 17, 17); lines.forEach((ln, k) => { if (k === 0 && bold && ln.startsWith(bold.trim())) { doc.setFont("helvetica", "bold"); doc.text(bold.trim(), M + 5, y + 3); const bw = doc.getTextWidth(bold.trim() + " "); doc.setFont("helvetica", "normal"); doc.text(ln.slice(bold.trim().length).trimStart(), M + 5 + bw, y + 3); } else { doc.setFont("helvetica", "normal"); doc.text(ln, M + 5, y + 3); } y += 3.9; }); y += 1.6; });
+      y = Math.max(y, startY + h) + 4; }
+    else if (b.t === "table") { doc.autoTable({ startY: y, head: [b.head.map(pdfText)], body: b.rows.map(r => r.map(pdfText)), margin: { left: M, right: M }, theme: "plain", styles: { font: "helvetica", fontSize: 7.6, cellPadding: 1.3, lineColor: [215, 220, 225], lineWidth: { bottom: 0.15 }, valign: "middle", halign: "center" },
+        headStyles: { fillColor: NAVY, textColor: 255, fontStyle: "bold", halign: "center" }, alternateRowStyles: { fillColor: [242, 245, 248] },
+        columnStyles: Object.fromEntries(b.widths.map((w, i) => [i, { cellWidth: CW * w / b.widths.reduce((a, c) => a + c, 0), halign: i === 0 || /^(Jogador|Jogadora|Jogo|Competição|Melhor marcador|Quando|Excluído|Faltas registadas|Entre)/.test(b.head[i]) ? "left" : "center", fontStyle: i === 0 ? "bold" : "normal" }])),
+        didParseCell: d => { if (d.section === "body" && (b.hl || []).includes(d.row.index)) d.cell.styles.fillColor = [255, 240, 222]; if (d.section === "body" && b.boldLast && d.row.index === b.rows.length - 1) d.cell.styles.fontStyle = "bold"; } });
+      y = doc.lastAutoTable.finalY + 2; if (b.caption) write(b.caption, 7.5, { italic: true, color: GREY, center: true, after: 4 }); else y += 3; }
+    else if (b.t === "chart") { const img = chartPNG(b.spec, 900, "jpeg"); const w = CW * (b.w || 1), h = w * img.h / img.w; ensure(h + 8); doc.addImage(img.url, "JPEG", M + (CW - w) / 2, y, w, h); y += h + 1.5; if (b.caption) write(b.caption, 7.5, { italic: true, color: GREY, center: true, after: 4 }); else y += 3; }
+    else if (b.t === "notes") b.items.forEach(t => write("•  " + t, 8, { after: 1.5 }));
+    else if (b.t === "ficha") {
+      ensure(75); doc.setFillColor(...NAVY); doc.rect(M, y, CW, 8, "F"); doc.setFont("helvetica", "bold"); doc.setFontSize(11.5); doc.setTextColor(255, 255, 255); doc.text(pdfText(b.title), M + 3, y + 5.6); const tw = doc.getTextWidth(pdfText(b.title)); doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.text(pdfText(b.sub), M + 7 + tw, y + 5.6); y += 10;
+      const cw = (CW - 6) / 4; b.tiles.forEach((it, j) => { const X = M + j * (cw + 2); doc.setFillColor(240, 243, 247); doc.rect(X, y, cw, 15, "F"); doc.setFont("helvetica", "bold"); doc.setFontSize(12.5); doc.setTextColor(...NAVY); doc.text(pdfText(it[0]), X + 3, y + 6); doc.setFontSize(7); doc.setTextColor(40, 40, 40); doc.text(pdfText(it[1]), X + 3, y + 10); doc.setFont("helvetica", "normal"); doc.setFontSize(6.5); doc.setTextColor(...GREY); doc.text(pdfText(it[2]), X + 3, y + 13.2); }); y += 18;
+      const c3 = (CW - 6) / 3; const colsD = [["PONTOS FORTES", b.f, [12, 138, 78]], ["A MELHORAR", b.m.length ? b.m : ["Sem pontos críticos nos indicadores da ata."], [194, 65, 12]], ["AÇÃO SUGERIDA", b.a, [31, 111, 209]]];
+      doc.setFontSize(7.8); const hs = colsD.map(([, items]) => items.reduce((a, t) => a + doc.splitTextToSize("- " + pdfText(t), c3 - 2).length * 3.4 + 1, 7)); const hh = Math.max(...hs); ensure(hh + 2);
+      colsD.forEach(([title, items, col], j) => { const X = M + j * (c3 + 3); let yy = y; doc.setDrawColor(...col); doc.setLineWidth(0.8); doc.line(X, yy, X + c3, yy); doc.setFont("helvetica", "bold"); doc.setFontSize(7.5); doc.setTextColor(...col); doc.text(title, X, yy + 4.5); yy += 7.5; doc.setFont("helvetica", "normal"); doc.setFontSize(7.8); doc.setTextColor(17, 17, 17); items.forEach(t => { const ls = doc.splitTextToSize("- " + pdfText(t), c3 - 2); doc.text(ls, X, yy + 2.5); yy += ls.length * 3.4 + 1; }); });
+      y += hh + 1; write("Outros dados: " + b.extra, 7.6, { color: GREY, after: 6 });
+    }
+  }
+  const n = doc.getNumberOfPages(); for (let i = 1; i <= n; i++) { doc.setPage(i); doc.setFont("helvetica", "normal"); doc.setFontSize(7); doc.setTextColor(...GREY); doc.text(pdfText(`FPN · Direção Técnica Nacional · ${rep.title}   |   ${i}/${n}`), PW - M, PH - 8, { align: "right" }); }
+  return doc.output("blob");
+}
+
+/* ---- app.js ---- */
+/* ===== Aplicação ===== */
+const $ = s => document.querySelector(s);
+const state = { loading: true, games: [], analysed: new Map(), view: "jogo", selected: null, store: null, dl: undefined, pending: [] };
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const dateKey = d => { const m = String(d || "").match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/); return m ? `${m[3]}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}` : ""; };
+let toastT; function toast(msg) { const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 4200); }
+
+/* ---------- armazenamento ---------- */
+function slug(s) { return String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^A-Za-z0-9_\-.]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 120) || "jogo"; }
+function gameId(g) { return slug(`${dateKey(g.meta.data) || "s-data"}_${g.meta.local}-${g.meta.visit}_ata${g.meta.ata || "x"}`); }
+function encodeGame(g) { return { id: g.id, meta: g.meta, rosters: Object.fromEntries(Object.entries(g.rosters).map(([t, r]) => [t, Object.fromEntries(Object.entries(r).map(([n, v]) => [String(n), v]))])), coaches: g.coaches || {}, events: g.events.map(e => e.map(v => v == null ? "" : v).join("|")), checks: (g.checks || []).map(c => `${c.p}|${c.t}|${c.sc[0]}|${c.sc[1]}`), warnings: g.warnings || [], fileName: g.fileName || "", savedAt: new Date().toISOString() }; }
+function decodeGame(d) { return { id: d.id, meta: d.meta || {}, rosters: d.rosters || {}, coaches: d.coaches || {}, events: (d.events || []).map(s => { const [p, t, tm, n, c] = String(s).split("|"); return [+p, t, tm || null, n === "" ? null : +n, +c]; }), checks: (d.checks || []).map(s => { const [p, t, a, b] = String(s).split("|"); return { p: +p, t, sc: [+a, +b] }; }), warnings: d.warnings || [], fileName: d.fileName || "", savedAt: d.savedAt }; }
+const LS = "atas-polo-v1";
+function lsRead() { try { return JSON.parse(localStorage.getItem(LS) || "[]"); } catch (e) { return []; } }
+function lsWrite(list) { try { localStorage.setItem(LS, JSON.stringify(list)); return true; } catch (e) { return false; } }
+async function initStore() {
+  let db = null; try { db = window.claude && window.claude.use ? await window.claude.use("db") : null; } catch (e) { db = null; }
+  if (db) {
+    const col = db.collection("jogos"); let timer = setTimeout(() => showNote("Ainda não foi possível ler as atas guardadas. A ligação pode estar lenta; os dados aparecem assim que chegarem.", true), 10000);
+    col.onSnapshot(snap => { if (!snap.metadata || !snap.metadata.fromCache) { clearTimeout(timer); hideNote(); } setGames(snap.docs.map(d => decodeGame({ id: d.id, ...d.data() }))); },
+      err => { clearTimeout(timer); showNote(`Não foi possível ler as atas guardadas (${err && err.code || "erro"}). Recarregue a página mais tarde.`, true); });
+    state.store = { mode: "db", save: async g => col.doc(g.id).set(encodeGame(g)), remove: async id => col.doc(id).delete() };
+  } else {
+    const local = lsRead().map(decodeGame);
+    state.store = { mode: "local", save: async g => { const l = lsRead().filter(x => x.id !== g.id); l.push(encodeGame(g)); if (!lsWrite(l)) throw new Error("storage"); setGames(l.map(decodeGame)); }, remove: async id => { const l = lsRead().filter(x => x.id !== id); lsWrite(l); setGames(l.map(decodeGame)); } };
+    let list = local;
+    if (!list.length && typeof SEED_GAMES !== "undefined" && !(() => { try { return localStorage.getItem(LS + "-seeded"); } catch (e) { return "1"; } })()) { lsWrite(SEED_GAMES); try { localStorage.setItem(LS + "-seeded", "1"); } catch (e) { } list = SEED_GAMES.map(decodeGame); }
+    showNote(window.claude ? "Nesta vista as atas ficam guardadas apenas neste navegador. Abra a página no claude.ai para usar a base partilhada." : "As atas ficam guardadas neste navegador. Use «Exportar cópia» em Atas guardadas para as levar para outro computador.");
+    setGames(list);
+  }
+}
+function showNote(t, warn) { const n = $("#store-note"); n.textContent = t; n.className = "notice" + (warn ? " warn" : ""); n.hidden = false; }
+function hideNote() { $("#store-note").hidden = true; }
+function setGames(list) {
+  state.loading = false;
+  state.games = list.filter(g => g.events && g.events.length).sort((a, b) => dateKey(b.meta.data).localeCompare(dateKey(a.meta.data)) || String(b.meta.ata).localeCompare(String(a.meta.ata)));
+  state.analysed = new Map(); state.games.forEach(g => { try { state.analysed.set(g.id, analyseGame(g)); } catch (e) { console.error(e); } });
+  $("#n-atas").textContent = state.games.length;
+  if (!state.selected || !state.analysed.has(state.selected)) state.selected = state.games[0] ? state.games[0].id : null;
+  refreshFilters(); renderAll();
+}
+
+/* ---------- renderização dos blocos ---------- */
+function pal() { const cs = getComputedStyle(document.documentElement), v = k => cs.getPropertyValue("--" + k).trim(); return { bg: v("surface"), ink: v("ink"), ink2: v("ink2"), grid: v("line"), empty: v("empty"), c1: v("c1"), c2: v("c2"), c3: v("c3"), good: v("good"), bad: v("bad"), heat1: v("heat1"), heat2: v("heat2") }; }
+function themed(spec, P) { // troca cores fixas do modelo pelas do tema
+  const map = { [PAL_LIGHT.c1]: P.c1, [PAL_LIGHT.c2]: P.c2, [PAL_LIGHT.c3]: P.c3, [PAL_LIGHT.good]: P.good, [PAL_LIGHT.bad]: P.bad, [PAL_LIGHT.empty]: P.empty, [PAL_LIGHT.heat1]: P.heat1, [PAL_LIGHT.heat2]: P.heat2 };
+  const s = { ...spec }; if (s.color) s.color = map[s.color] || s.color; if (s.rows) s.rows = s.rows.map(r => r.color ? { ...r, color: map[r.color] || r.color } : r); return s;
+}
+function renderBlocks(el, rep) {
+  const h = []; const charts = [];
+  rep.blocks.forEach(b => {
+    if (b.t === "cover") h.push(`<div class="cover"><div class="eyebrow">${esc(b.eyebrow)}</div><h2>${esc(b.title)}</h2><div class="sub">${esc(b.sub)}</div></div>`);
+    else if (b.t === "h1") h.push(`<h3 class="h1">${esc(b.text)}</h3>`);
+    else if (b.t === "h2") h.push(`<h4 class="h2">${esc(b.text)}</h4>`);
+    else if (b.t === "p") h.push(`<p>${esc(b.text)}</p>`);
+    else if (b.t === "kpis") h.push(`<div class="kpis">${b.items.map(it => `<div class="kpi ${it[3] || ""}"><b>${esc(it[0])}</b><span>${esc(it[1])}</span><small>${esc(it[2] || "")}</small></div>`).join("")}</div>`);
+    else if (b.t === "box") h.push(`<div class="box ${b.kind}"><div class="lbl">${{ chave: "◆ PONTO-CHAVE", acao: "➜ AÇÃO RECOMENDADA", alerta: "▲ ATENÇÃO" }[b.kind]}</div><ul>${b.items.map(it => `<li>${Array.isArray(it) ? `<b>${esc(it[0])}</b>${esc(it[1] || "")}` : esc(it)}</li>`).join("")}</ul></div>`);
+    else if (b.t === "table") { const L = b.head.map(hh => /^(Jogador|Jogadora|Jogo|Competição|Melhor marcador|Quando|Excluído|Faltas registadas|Entre)/.test(hh)); h.push(`<div class="tw"><table class="t${b.compare ? " compare" : ""}"><thead><tr>${b.head.map((x, j) => `<th${L[j] ? ' style="text-align:left"' : ""}>${esc(x)}</th>`).join("")}</tr></thead><tbody>${b.rows.map((r, i) => `<tr class="${(b.hl || []).includes(i) ? "hl" : ""}${b.boldLast && i === b.rows.length - 1 ? " last" : ""}">${r.map((c, j) => `<td${L[j] ? ' style="text-align:left"' : ""}>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>${b.caption ? `<p class="cap">${esc(b.caption)}</p>` : ""}`); }
+    else if (b.t === "chart") { charts.push(b); h.push(`<figure class="ch"><canvas data-ci="${charts.length - 1}" role="img" aria-label="${esc(b.caption || "Gráfico")}"></canvas>${b.caption ? `<figcaption class="cap">${esc(b.caption)}</figcaption>` : ""}</figure>`); }
+    else if (b.t === "notes") h.push(`<ul class="notes">${b.items.map(t => `<li>${esc(t)}</li>`).join("")}</ul>`);
+    else if (b.t === "ficha") h.push(`<div class="ficha"><div class="fh"><b>${esc(b.title)}</b><span>${esc(b.sub)}</span></div><div class="kpis">${b.tiles.map(it => `<div class="kpi"><b>${esc(it[0])}</b><span>${esc(it[1])}</span><small>${esc(it[2])}</small></div>`).join("")}</div>
+      <div class="cols"><div class="c1"><h5>PONTOS FORTES</h5><ul>${b.f.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div><div class="c2"><h5>A MELHORAR</h5><ul>${(b.m.length ? b.m : ["Sem pontos críticos nos indicadores da ata."]).map(x => `<li>${esc(x)}</li>`).join("")}</ul></div><div class="c3"><h5>AÇÃO SUGERIDA</h5><ul>${b.a.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div></div><div class="extra"><b>Outros dados:</b> ${esc(b.extra)}</div></div>`);
+  });
+  el.innerHTML = h.join(""); el._charts = charts; drawCharts(el);
+}
+function drawCharts(el) { if (!el._charts) return; const P = pal(); el.querySelectorAll("canvas[data-ci]").forEach(cv => { const b = el._charts[+cv.dataset.ci]; const W = Math.max(300, Math.min(820, el.clientWidth - 40) * (b.w || 1)); drawChart(cv, themed(b.spec, P), Math.round(W), P); }); }
+
+/* ---------- vistas ---------- */
+function emptyHTML(t, s) { return `<div class="empty"><h2>${t}</h2><p>${s}</p><p><button class="btn primary" onclick="go('importar')">Importar atas</button></p></div>`; }
+function currentGlobal() {
+  const comp = $("#f-comp").value, gen = $("#f-gen").value, de = $("#f-de").value, ate = $("#f-ate").value;
+  const list = state.games.filter(g => (!comp || g.meta.competicao === comp) && (!gen || g.meta.genero === gen) && (!de || dateKey(g.meta.data) >= de) && (!ate || dateKey(g.meta.data) <= ate)).map(g => state.analysed.get(g.id)).filter(Boolean)
+    .sort((a, b) => dateKey(a.meta.data).localeCompare(dateKey(b.meta.data)));
+  const txt = [comp || "todas as competições", gen ? gen.toLowerCase() : "", de ? `desde ${de.split("-").reverse().join("/")}` : "", ate ? `até ${ate.split("-").reverse().join("/")}` : ""].filter(Boolean).join(" · ");
+  return { list, txt };
+}
+function renderAll() {
+  // seletor de jogo
+  const sel = $("#sel-jogo"); sel.innerHTML = state.games.map(g => { const a = state.analysed.get(g.id); return `<option value="${esc(g.id)}">${esc(`${g.meta.data} · ${g.meta.local} ${a ? a.score[0] : ""}–${a ? a.score[1] : ""} ${g.meta.visit} · ${g.meta.competicao}`)}</option>`; }).join(""); if (state.selected) sel.value = state.selected;
+  const rj = $("#rep-jogo"); const an = state.selected && state.analysed.get(state.selected);
+  if (state.loading) { const m = `<div class="empty"><h2>A carregar as atas…</h2><p>As atas guardadas aparecem dentro de momentos.</p></div>`; rj.innerHTML = m; $("#rep-global").innerHTML = m; renderAtas(); return; }
+  if (an) { state.repJogo = gameReport(an); renderBlocks(rj, state.repJogo); } else { state.repJogo = null; rj.innerHTML = emptyHTML("Ainda não há atas", "Importe a primeira ata em PDF para gerar o relatório do jogo."); }
+  const { list, txt } = currentGlobal(); const rg = $("#rep-global");
+  if (list.length) { state.agg = aggregate(list); state.repGlobal = globalReport(state.agg, txt); renderBlocks(rg, state.repGlobal); }
+  else { state.agg = null; state.repGlobal = null; rg.innerHTML = state.games.length ? emptyHTML("Nenhum jogo neste filtro", "Altere a competição, o género ou as datas.") : emptyHTML("Ainda não há atas", "A análise global acumula todas as atas importadas."); }
+  renderAtas();
+}
+function refreshFilters() { const f = $("#f-comp"), v = f.value; const comps = [...new Set(state.games.map(g => g.meta.competicao).filter(Boolean))].sort(); f.innerHTML = `<option value="">Todas</option>` + comps.map(c => `<option>${esc(c)}</option>`).join(""); if (comps.includes(v)) f.value = v; }
+function renderAtas() {
+  const t = $("#atas-table"); $("#atas-sub").textContent = state.games.length ? `${state.games.length} ata${state.games.length === 1 ? "" : "s"} · ${state.store && state.store.mode === "db" ? "guardadas na base partilhada desta página" : "guardadas neste navegador"}.` : "Ainda não há atas guardadas.";
+  t.innerHTML = state.games.length ? `<thead><tr><th>Data</th><th>Jogo</th><th>Competição</th><th>Género</th><th>Ata</th><th>Conferência</th><th></th></tr></thead><tbody>${state.games.map(g => { const a = state.analysed.get(g.id); const v = a ? a.validation : { checks: 0, mismatches: 0 };
+    return `<tr><td>${esc(g.meta.data)}</td><td><a href="#jogo" data-open="${esc(g.id)}">${esc(`${g.meta.local} ${a ? a.score[0] : ""}–${a ? a.score[1] : ""} ${g.meta.visit}`)}</a></td><td>${esc(g.meta.competicao)}</td><td>${esc(g.meta.genero)}</td><td>${esc(g.meta.ata)}</td><td>${v.checks ? (v.mismatches ? `<span class="pill warn">${v.mismatches} diferenças</span>` : `<span class="pill ok">✓ ${v.checks}/${v.checks}</span>`) : "–"}</td><td><button class="btn danger" data-del="${esc(g.id)}">Apagar</button></td></tr>`; }).join("")}</tbody>` : "";
+}
+function go(v) { state.view = v; ["jogo", "global", "importar", "atas"].forEach(x => { $("#v-" + x).hidden = x !== v; $("#tab-" + x).setAttribute("aria-current", x === v ? "page" : "false"); }); if (location.hash !== "#" + v) history.replaceState(null, "", "#" + v); requestAnimationFrame(() => { drawCharts($("#rep-jogo")); drawCharts($("#rep-global")); }); }
+window.go = go;
+
+/* ---------- importação ---------- */
+async function readPdf(file) {
+  const data = new Uint8Array(await file.arrayBuffer());
+  const doc = await pdfjsLib.getDocument({ data, isEvalSupported: false }).promise; const pages = [];
+  for (let i = 1; i <= doc.numPages; i++) { const tc = await (await doc.getPage(i)).getTextContent(); pages.push(tc.items.map(t => ({ s: t.str, x: t.transform[4], y: t.transform[5], w: t.width }))); }
+  return parseAta(pages);
+}
+function niceComp(s) { if (!s || s !== s.toUpperCase()) return s || ""; return s.toLowerCase().replace(/(^|\s|\/)([a-zà-ÿ])/g, (m, a, b) => a + b.toUpperCase()).replace(/\bA(\d)\b/g, "A$1").replace(/\b(De|Da|Do|Dos|Das|E)\b/g, w => w.toLowerCase()); }
+async function handleFiles(files) {
+  for (const f of files) {
+    if (!/\.pdf$/i.test(f.name) && f.type !== "application/pdf") { state.pending.unshift({ err: `«${f.name}» não é um PDF.`, name: f.name }); continue; }
+    try { const g = await readPdf(f); g.fileName = f.name; g.meta.competicao = niceComp(g.meta.competicao); if (/femin/i.test(f.name) && g.meta.genero !== "Feminino") { g.meta.generoAta = g.meta.genero; g.meta.genero = "Feminino"; } g.id = gameId(g); state.pending.unshift({ g, an: analyseGame(g) }); }
+    catch (e) { console.error(e); state.pending.unshift({ err: e && e.message && !/^\w+Error/.test(e.message) ? e.message : "Não foi possível ler este PDF. Confirme que é uma ata de pólo aquático da FPN.", name: f.name }); }
+    renderImports();
+  }
+}
+function renderImports() {
+  $("#imports").innerHTML = state.pending.map((p, i) => {
+    if (p.err) return `<div class="icard err"><div class="head"><b>${esc(p.name)}</b><span class="pill warn">Não importado</span></div><div>${esc(p.err)}</div><div class="acts"><button class="btn" data-drop="${i}">Remover</button></div></div>`;
+    const g = p.g, an = p.an, v = an.validation, dup = state.games.some(x => x.id === g.id);
+    return `<div class="icard"><div class="head"><b>${esc(`${g.meta.local} ${an.score[0]}–${an.score[1]} ${g.meta.visit}`)}</b><span class="muted">${esc(p.g.fileName)}</span>
+      <span class="pill info">${g.events.length} eventos · ${Object.values(g.rosters).reduce((a, r) => a + Object.keys(r).length, 0)} jogadores</span>
+      ${v.checks ? (v.mismatches ? `<span class="pill warn">${v.mismatches} diferenças com o marcador da ata</span>` : `<span class="pill ok">✓ Marcador conferido ${v.checks}/${v.checks}</span>`) : `<span class="pill warn">Sem marcador na ata para conferir</span>`}
+      ${dup ? `<span class="pill warn">Já existe – guardar substitui</span>` : ""}</div>
+      <div class="grid"><div><label class="lab" for="ic-c-${i}">Competição</label><input type="text" id="ic-c-${i}" data-k="competicao" data-i="${i}" value="${esc(g.meta.competicao)}"></div>
+      <div><label class="lab" for="ic-g-${i}">Género</label><select id="ic-g-${i}" data-k="genero" data-i="${i}">${["Masculino", "Feminino"].map(x => `<option${g.meta.genero === x ? " selected" : ""}>${x}</option>`).join("")}</select></div>
+      <div><label class="lab" for="ic-d-${i}">Data</label><input type="text" id="ic-d-${i}" data-k="data" data-i="${i}" value="${esc(g.meta.data)}"></div>
+      <div><label class="lab" for="ic-a-${i}">Ata n.º</label><input type="text" id="ic-a-${i}" data-k="ata" data-i="${i}" value="${esc(g.meta.ata)}"></div></div>
+      ${g.meta.generoAta ? `<div class="muted">A ata indica «${esc(g.meta.generoAta)}», mas o nome do ficheiro indica femininos. Confirme o género.</div>` : ""}
+      ${g.warnings.length ? `<ul>${g.warnings.map(w => `<li>${esc(w)}</li>`).join("")}</ul>` : ""}
+      <div class="acts"><button class="btn primary" data-save="${i}">${dup ? "Substituir a guardada" : "Guardar ata"}</button><button class="btn" data-drop="${i}">Descartar</button></div></div>`;
+  }).join("") + (state.pending.filter(p => !p.err).length > 1 ? `<div><button class="btn primary" data-saveall="1">Guardar todas (${state.pending.filter(p => !p.err).length})</button></div>` : "");
+}
+async function savePending(idxs) {
+  let ok = 0, last = null;
+  for (const i of idxs.sort((a, b) => b - a)) { const p = state.pending[i]; if (!p || p.err) continue; p.g.id = gameId(p.g);
+    try { await state.store.save(p.g); ok++; last = p.g.id; state.pending.splice(i, 1); } catch (e) { toast(e && e.code === "permission_denied" ? "Não tem permissão para guardar atas nesta página." : "Não foi possível guardar a ata. Tente de novo."); } }
+  renderImports(); if (ok) { toast(`${ok} ata${ok === 1 ? "" : "s"} guardada${ok === 1 ? "" : "s"}.`); state.selected = last; if (state.store.mode !== "db") renderAll(); else setTimeout(() => { state.selected = last; renderAll(); }, 400); go("jogo"); }
+}
+
+/* ---------- exportação ---------- */
+function saveDirect(filename, blob) { const u = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 4000); }
+async function getDl() { if (state.dl !== undefined) return state.dl; try { state.dl = window.claude && window.claude.use ? await window.claude.use("downloads") : null; } catch (e) { state.dl = null; } return state.dl; }
+async function doExport(kind, btn) {
+  const [scope, fmt] = kind.split("-"); const rep = scope === "jogo" ? state.repJogo : state.repGlobal;
+  if (!rep) { toast("Não há dados para exportar."); return; }
+  btn.disabled = true;
+  try {
+    let blob; if (fmt === "xlsx") blob = buildXlsx(scope, scope === "jogo" ? { an: state.analysed.get(state.selected), rep } : { ag: state.agg, rep }); else if (fmt === "docx") blob = await buildDocx(rep); else blob = buildPdf(rep);
+    const filename = `${rep.file}.${fmt}`;
+    if (window.__exportHook) { window.__exportHook(filename, blob); return; }
+    const dl = await getDl(); if (!dl) { if (!window.claude) { saveDirect(filename, blob); toast(`${filename} transferido.`); return; } toast("A transferência de ficheiros não está disponível nesta vista. Abra a página no claude.ai."); return; }
+    await dl.save({ filename, data: blob }); toast(`${filename} pronto.`);
+  } catch (e) { console.error(e); if (e && e.code === "declined") toast("Transferência cancelada."); else if (e && e.code === "rate_limited") toast("Já há uma transferência a aguardar confirmação."); else toast("Não foi possível gerar o ficheiro."); }
+  finally { btn.disabled = false; }
+}
+
+/* ---------- eventos ---------- */
+document.addEventListener("click", e => {
+  const t = e.target.closest("button, a"); if (!t) return;
+  if (t.dataset.view) go(t.dataset.view);
+  if (t.dataset.exp) doExport(t.dataset.exp, t);
+  if (t.dataset.save != null) savePending([+t.dataset.save]);
+  if (t.dataset.saveall) savePending(state.pending.map((p, i) => i));
+  if (t.dataset.drop != null) { state.pending.splice(+t.dataset.drop, 1); renderImports(); }
+  if (t.dataset.open) { e.preventDefault(); state.selected = t.dataset.open; renderAll(); go("jogo"); }
+  if (t.dataset.backup) { const data = JSON.stringify({ app: "atas-polo", versao: 1, exportado: new Date().toISOString(), atas: state.games.map(encodeGame) }, null, 1); const fn = `Copia_atas_polo_${new Date().toISOString().slice(0, 10)}.json`; const blob = new Blob([data], { type: "application/json" });
+    if (window.__exportHook) { window.__exportHook(fn, blob); return; } getDl().then(dl => dl ? dl.save({ filename: fn, data: blob }).then(() => toast("Cópia pronta.")).catch(() => { }) : (saveDirect(fn, blob), toast("Cópia transferida."))); }
+  if (t.dataset.del) { if (!t.classList.contains("armed")) { t.classList.add("armed"); t.textContent = "Confirmar"; setTimeout(() => { t.classList.remove("armed"); t.textContent = "Apagar"; }, 4000); return; }
+    state.store.remove(t.dataset.del).then(() => toast("Ata apagada.")).catch(() => toast("Não foi possível apagar a ata.")); }
+});
+document.addEventListener("input", e => { const el = e.target; if (el.dataset.k && el.dataset.i != null) { const p = state.pending[+el.dataset.i]; if (p && p.g) { p.g.meta[el.dataset.k] = el.value; if (el.dataset.k === "genero" || el.dataset.k === "data") { p.an = analyseGame(p.g); } } } });
+$("#sel-jogo").addEventListener("change", e => { state.selected = e.target.value; const an = state.analysed.get(state.selected); state.repJogo = gameReport(an); renderBlocks($("#rep-jogo"), state.repJogo); });
+["#f-comp", "#f-gen", "#f-de", "#f-ate"].forEach(s => $(s).addEventListener("change", () => renderAll()));
+$("#file-in").addEventListener("change", e => { handleFiles([...e.target.files]); e.target.value = ""; });
+$("#restore-in").addEventListener("change", async e => { const f = e.target.files[0]; e.target.value = ""; if (!f) return;
+  try { const j = JSON.parse(await f.text()); const list = (j.atas || []).map(d => decodeGame(d)).filter(g => g.events.length && g.meta && g.meta.local); if (!list.length) throw new Error("vazio");
+    let n = 0; for (const g of list) { try { await state.store.save(g); n++; } catch (err) { } } toast(`${n} ata${n === 1 ? "" : "s"} importada${n === 1 ? "" : "s"} da cópia.`); if (state.store.mode !== "db") renderAll(); }
+  catch (err) { toast("Este ficheiro não é uma cópia válida das atas."); } });
+const drop = $("#drop"); ["dragenter", "dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
+["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("over"); }));
+drop.addEventListener("drop", e => handleFiles([...e.dataTransfer.files]));
+let rz; window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { drawCharts($("#rep-jogo")); drawCharts($("#rep-global")); }, 150); });
+try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { drawCharts($("#rep-jogo")); drawCharts($("#rep-global")); }); } catch (e) { }
+new MutationObserver(() => { drawCharts($("#rep-jogo")); drawCharts($("#rep-global")); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (["jogo", "global", "importar", "atas"].includes(h)) go(h); });
+
+/* ---------- arranque ---------- */
+if (window.pdfjsLib) { try { pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC; } catch (e) { } }
+go(["jogo", "global", "importar", "atas"].includes(location.hash.slice(1)) ? location.hash.slice(1) : "jogo");
+renderAll();
+initStore();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { drawCharts($("#rep-jogo")); drawCharts($("#rep-global")); });
+
+</script>
+</body>
+</html>
